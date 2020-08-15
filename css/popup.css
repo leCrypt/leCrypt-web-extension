@@ -1,0 +1,51 @@
+body { 
+	max-width: 600px;
+	max-height: 450px;
+    min-width: 600px;
+    min-height: 450px;
+}
+
+button {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    font-size: x-large;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    background-color: black;
+    box-shadow: 8px 8px #a883f8;
+    color: white;
+    margin: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    border-color: black;
+    background-color: white;
+    color: black;
+}
+
+input {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    font-size: x-large;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.2em;
+    padding-top: 0.2em;
+    background-color: white;
+    box-shadow: 5px 5px #a883f8;
+    color: black;
+}
+
+span {
+    font-size: medium;
+    color: red;
+}
+ 

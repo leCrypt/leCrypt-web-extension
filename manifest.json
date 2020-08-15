@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+	
+	"name": "Secpass",
+	"description": "A secure password manager",
+	"version": "1.0.0",
+	
+	"icons": {
+		"64": "icons/icon64.png"
+	},
+	
+	"permissions": ["activeTab", "storage","tabs"],
+	
+	"browser_action": {
+		"default_icon": "icons/icon32.png",
+		"default_title": "Secpass",
+		"default_popup": "popup.html"
+	}
+}

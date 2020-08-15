@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+        <title> </title>
+		
+		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bulma.min.css">
+        <link rel="stylesheet" href="css/popup.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	</head>
+	
+	<body>
+
+        <!-- First Time Screen -->
+        <section id="homeScreen" style="display: grid; place-items: center; padding-top: 18%;">
+            <img src="icons/inv.png" style="padding-bottom: 5%;"/>
+            <div>
+                <button id="createAccountBtn"><b>Create</b></button>
+                <button id="importAccountBtn"><b>Import</b></button>
+            </div>
+        </section>
+
+        <!-- Create Screen -->
+        <section id="createAccountScreen" style="display: grid; place-items: center; padding-top: 11%;">
+            <img src="icons/inv.png" style="padding-bottom: 5%;"/>
+            <input id="createAccountPassword1" type="password" placeholder="Password"/>
+            <input id="createAccountPassword2" style="margin-top: 3%;" type="password" placeholder="Repeat password"/>
+            <span id="createAccountSubmitError" style="margin-top: 2%;"></span>
+            <button id="submitAccountPassowrdsBtn" style="font-size: medium; margin-top: 1%; box-shadow: 5px 5px #a883f8;"><b>Submit</b></button>
+        </section>
+
+        <!-- Import Screen -->
+        <section id="importAccountScreen" style="display: grid; place-items: center; padding-top: 18%;">
+            Import Account Screen
+        </section>
+
+
+
+	</body>
+	<script src="js/jquery.js"></script>
+    <script src="js/all.js"></script>
+    <script src="popup.js"></script>
+</html>
