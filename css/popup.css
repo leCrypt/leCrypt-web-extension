@@ -43,6 +43,20 @@ input {
     color: black;
 }
 
+textarea {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    font-size: medium;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.2em;
+    padding-top: 0.2em;
+    background-color: white;
+    box-shadow: 5px 5px #a883f8;
+    color: black;
+}
+
 span {
     font-size: medium;
     color: red;

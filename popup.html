@@ -31,12 +31,44 @@
         </section>
 
         <!-- Import Screen -->
-        <section id="importAccountScreen" style="display: grid; place-items: center; padding-top: 18%;">
-            Import Account Screen
+        <section id="importAccountScreen" style="display: grid; place-items: center; padding-top: 8%;">
+            <img src="icons/inv.png" style="padding-bottom: 4%;"/>
+            <button style="margin-top: 3%; width: 40%;"> Google Drive </button>
+            <button style="margin-top: 3%; width: 40%;"> Dropbox </button>
+            <button style="margin-top: 3%; width: 40%;"> Onedrive </button>
         </section>
 
         <!-- Main User Screen -->
         <section id="mainScreen" style="display: grid; place-items: center; padding-top: 4%;">
+
+            <!-- Add Note Dialog -->
+            <dialog id="addSecNoteDialog" style="width: 87%; height: 87%;">
+                <form method="dialog">
+                    <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
+                        <h1 class="title">Add Note</h1>
+                        <button style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;" value="cancel"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <input id="addSecNoteInputTitle" style="width: 98%;" placeholder="Title"/>
+                    <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px;" placeholder="Note"></textarea>
+                    <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                </form>
+            </dialog>
+
+            <!-- Add Password Dialog -->
+            <dialog id="addSecPasswordDialog" style="width: 85%; height: 85%;">
+                <form method="dialog">
+                    <div style="padding-bottom: 5%; display: flex; justify-content: space-between; width: 100%;">
+                        <h1 class="title">Add Password</h1>
+                        <button style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;" value="cancel"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <input id="addSecPasswordInputWebsite" style="width: 98%;" placeholder="https://..."/>
+                    <input id="addSecPasswordInputUsername" style="width: 98%; margin-top: 5%;" placeholder="username"/>
+                    <input id="addSecPasswordInputPassword" type="password" style="width: 98%; margin-top: 5%;" placeholder="password"/>
+                    <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 20px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                </form>
+            </dialog>
+            
+            <!-- Main Screen Header -->
             <div style="padding-bottom: 5%; display: flex; justify-content: space-between; width: 100%;">
                 <button id="addSecNote" style="margin-left: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-sticky-note" aria-hidden="true"></i>
@@ -46,16 +78,17 @@
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-key" aria-hidden="true"></i>
                 </button>
             </div>
+
             <div style="display: grid; margin: 5%; place-items: center;">
                 <!--#6c63ff old color-->
                 <img style="width: 350px;" src="icons/addkey.png"/>
                 <span style="color: gray; padding-top: 10px;"> Nothing found, add some! </span>
             </div>
+
         </section>
 
-
-
-	</body>
+    </body>
+    <script src="js/script.js"></script>
 	<script src="js/jquery.js"></script>
     <script src="js/all.js"></script>
     <script src="popup.js"></script>
