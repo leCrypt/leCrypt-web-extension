@@ -17,7 +17,6 @@ button {
     background-color: black;
     box-shadow: 8px 8px #a883f8;
     color: white;
-    margin: 25px;
     text-decoration: none;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
