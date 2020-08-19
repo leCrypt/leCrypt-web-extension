@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
-        <title> </title>
-		
 		<meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/bulma.min.css">
@@ -38,6 +36,14 @@
             <button style="margin-top: 3%; width: 40%;"> Onedrive </button>
         </section>
 
+        <!-- Login Screen -->
+        <section id="loginAccountScreen" style="display: grid; place-items: center; padding-top: 17%;">
+            <img src="icons/inv.png" style="padding-bottom: 5%;"/>
+            <input id="submitLoginInput" type="password" placeholder="Password"/>
+            <span id="loginAccountSubmitError" style="margin-top: 2%;"></span>
+            <button id="submitLoginBtn" style="font-size: medium; margin-top: 2%; box-shadow: 5px 5px #a883f8;"><b>Submit</b></button>
+        </section>
+
         <!-- Main User Screen -->
         <section id="mainScreen" style="display: grid; place-items: center; padding-top: 4%;">
 
@@ -46,26 +52,28 @@
                 <form method="dialog">
                     <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
                         <h1 class="title">Add Note</h1>
-                        <button style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;" value="cancel"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <button id="addSecNoteDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
-                    <input id="addSecNoteInputTitle" style="width: 98%;" placeholder="Title"/>
-                    <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px;" placeholder="Note"></textarea>
-                    <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                    <input id="addSecNoteInputTitle" style="width: 98%;" placeholder="title"/>
+                    <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px;" placeholder="note"></textarea>
                 </form>
+                <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 8px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <span id="addSecNoteSubmitError" style="margin-top: 2%;"></span>
             </dialog>
 
             <!-- Add Password Dialog -->
-            <dialog id="addSecPasswordDialog" style="width: 85%; height: 85%;">
+            <dialog id="addSecPasswordDialog" style="width: 87%; height: 87%;">
                 <form method="dialog">
-                    <div style="padding-bottom: 5%; display: flex; justify-content: space-between; width: 100%;">
+                    <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
                         <h1 class="title">Add Password</h1>
-                        <button style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;" value="cancel"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <button id="addSecPasswordDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
-                    <input id="addSecPasswordInputWebsite" style="width: 98%;" placeholder="https://..."/>
-                    <input id="addSecPasswordInputUsername" style="width: 98%; margin-top: 5%;" placeholder="username"/>
-                    <input id="addSecPasswordInputPassword" type="password" style="width: 98%; margin-top: 5%;" placeholder="password"/>
-                    <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 20px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                    <input id="addSecPasswordInputWebsite" style="width: 98%;" placeholder="https://example.com/"/>
+                    <input id="addSecPasswordInputUsername" style="width: 98%; margin-top: 6%;" placeholder="username"/>
+                    <input id="addSecPasswordInputPassword" type="password" style="width: 98%; margin-top: 6%;" placeholder="password"/>
                 </form>
+                <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <span id="addSecPasswordSubmitError" style="margin-top: 2%;"></span>
             </dialog>
             
             <!-- Main Screen Header -->
@@ -79,7 +87,24 @@
                 </button>
             </div>
 
-            <div style="display: grid; margin: 5%; place-items: center;">
+            <!-- List of Notes/Passwords -->
+            <div id="mainScreenSomethingFound" style="display: flex; justify-content: space-between; width: 100%;">
+                <div style="overflow-y: scroll; height:335px; width: 50%;">
+                    <div id="notes-list">
+                        <ul class="list">
+                        </ul>
+                    </div>
+                </div>
+                <div style="overflow-y: scroll; height:335px; width: 50%;">
+                    <div id="passes-list">
+                        <ul class="list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nothing found page -->
+            <div id="mainScreenNothingFound" style="display: grid; padding: 4%; place-items: center;">
                 <!--#6c63ff old color-->
                 <img style="width: 350px;" src="icons/addkey.png"/>
                 <span style="color: gray; padding-top: 10px;"> Nothing found, add some! </span>
@@ -88,8 +113,11 @@
         </section>
 
     </body>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/list.js"></script>
+    <script src="js/crypto-js.min.js"></script>
     <script src="js/script.js"></script>
-	<script src="js/jquery.js"></script>
     <script src="js/all.js"></script>
     <script src="popup.js"></script>
 </html>

@@ -4,7 +4,10 @@ $(function(){
   $("#importAccountScreen").hide();
   $("#homeScreen").hide();
   $("#mainScreen").hide();
-  
+  $("#loginAccountScreen").hide();
+  $("#mainScreenNothingFound").hide()
+  $("#mainScreenSomethingFound").hide()
+
   console.log("[DEBUG] Secpass started!");
 
   $("#mainScreen").ready(function(){
@@ -17,31 +20,86 @@ $(function(){
         login = info.loggedIn;
         console.log("[DEBUG] Status: "+login);
         if(login){
-          
+          //load data
+          loadUserData();
+          $("#mainScreen").show();
+          //iflogin
         } else {
-          
+          $("#loginAccountScreen").show();
+          $("#mainScreen").hide();
+          //ifnotlogin
         }
-        $("#mainScreen").show();
       } else {
         console.log("[DEBUG] User data not found!");
         $("#homeScreen").show();
       }
     });
 
+    $("#loginAccountScreen").ready(function(){
+      $("#submitLoginBtn").click(function(){
+        var pass = $("#submitLoginInput").val()
+        chrome.storage.local.get(['secpassverify'], function(data){
+          var hashed = data.secpassverify.sample;
+          console.log(hashed);
+          if(data.secpassverify!=undefined){
+
+            var hash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
+            console.log(hash)
+            if(hash == hashed){
+              //TODO loadUserData 
+              loadUserData();
+              userData = {
+                "ik": pass,
+                "loggedIn": true
+              }
+
+              chrome.storage.local.set({'secpassd': userData}, function(){
+                console.log("[DEBUG] User reloaded!");
+                $("#loginAccountSubmitError").text("");
+                $("#loginAccountScreen").hide();
+                $("#mainScreen").show();
+              });
+
+            } else {
+              $("#loginAccountSubmitError").text("Incorrect password!");
+            }
+          } else {
+            console.log("[DEBUG] submitLoginBtn shouldn't reach here!");
+          }
+        });
+      });
+    });
+
+    $("#addSecNoteSaveBtn").click(function(){
+      var title = $("#addSecNoteInputTitle").val();
+      var note = $("#addSecNoteInputTextArea").val();
+      saveSecNote(title, note)
+    });
+    $("#addSecNoteDialogClose").click(function(){
+      $("#addSecNoteDialog").css("display", "none")
+    });
+    
+    $("#addSecPasswordDialogClose").click(function(){
+      $("#addSecPasswordDialog").css("display", "none")  
+    });
+    $("#addSecPasswordSaveBtn").click(function(){
+      var website = $("#addSecPasswordInputWebsite").val();
+      var username = $("#addSecPasswordInputUsername").val();
+      var password = $("#addSecPasswordInputPassword").val();
+      saveSecPassword(website, username, password)
+    });
+
   });
 
   $("#homeScreen").ready(function() {
-
     $("#createAccountBtn").click(function(){
       $("#homeScreen").hide();
       $("#createAccountScreen").show();
     });
-
     $("#importAccountBtn").click(function(){
       $("#homeScreen").hide();
       $("#importAccountScreen").show();
     });
-
   });
 
   $("#createAccountScreen").ready(function(){
@@ -61,7 +119,18 @@ $(function(){
           userData = {
             "ik": pass1,
             "loggedIn": true
+          }          
+
+          var hash = CryptoJS.PBKDF2(pass1, "");
+          
+          //TODO change it to user's machine 
+          userVerifyData = {
+            "sample": byteArrayToString(hash.words)
           }
+
+          chrome.storage.local.set({'secpassverify': userVerifyData}, function(){
+            console.log("[DEBUG] User verification data saved!");
+          });
 
           chrome.storage.local.set({'secpassd': userData}, function(){
             console.log("[DEBUG] User Saved set!");
@@ -69,6 +138,17 @@ $(function(){
             $("#mainScreen").show();
           });
 
+          userPassesData = [];
+          chrome.storage.local.set({'secpassPassesData': userPassesData}, function(){
+            console.log("[DEBUG] Passes Data initialised!")
+            console.log(userPassesData)
+          })
+
+          userNotesData = [];
+          chrome.storage.local.set({'secpassNotesData': userNotesData}, function(){
+            console.log("[DEBUG] Notes Data initialised!")
+            console.log(userNotesData)
+          })
           //TODO create account
         }
       }

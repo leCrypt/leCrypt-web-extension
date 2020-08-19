@@ -9,8 +9,11 @@
 		"64": "icons/icon64.png"
 	},
 	
-	"permissions": ["activeTab", "storage","tabs"],
-	
+	"permissions": ["activeTab", "idle", "storage", "tabs", {"fileSystem": ["write"]}],
+	"background": {
+		"scripts": ["js/jquery.js", "js/jquery.idle.js", "js/background.js"],
+		"persistent": true
+	},
 	"browser_action": {
 		"default_icon": "icons/icon32.png",
 		"default_title": "Secpass",
