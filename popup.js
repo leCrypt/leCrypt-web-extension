@@ -20,14 +20,11 @@ $(function(){
         login = info.loggedIn;
         console.log("[DEBUG] Status: "+login);
         if(login){
-          //load data
           loadUserData();
           $("#mainScreen").show();
-          //iflogin
         } else {
           $("#loginAccountScreen").show();
           $("#mainScreen").hide();
-          //ifnotlogin
         }
       } else {
         console.log("[DEBUG] User data not found!");
@@ -149,7 +146,7 @@ $(function(){
             console.log("[DEBUG] Notes Data initialised!")
             console.log(userNotesData)
           })
-          //TODO create account
+          loadUserData()
         }
       }
 

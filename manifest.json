@@ -11,7 +11,7 @@
 	
 	"permissions": ["activeTab", "idle", "storage", "tabs", {"fileSystem": ["write"]}],
 	"background": {
-		"scripts": ["js/jquery.js", "js/jquery.idle.js", "js/background.js"],
+		"scripts": ["js/jquery.js", "js/background.js"],
 		"persistent": true
 	},
 	"browser_action": {
