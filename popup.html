@@ -55,7 +55,7 @@
                         <button id="addSecNoteDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
                     <input id="addSecNoteInputTitle" style="width: 98%;" placeholder="title"/>
-                    <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px;" placeholder="note"></textarea>
+                    <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px; resize: none;" placeholder="note"></textarea>
                 </form>
                 <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 8px;"><i class="fa fa-check" aria-hidden="true"></i></button>
                 <span id="addSecNoteSubmitError" style="margin-top: 2%;"></span>
@@ -115,6 +115,7 @@
     </body>
 
     <script src="js/jquery.js"></script>
+    <script src="js/clipboard.min.js"></script>
     <script src="js/crypto-js.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/all.js"></script>

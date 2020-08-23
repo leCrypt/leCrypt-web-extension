@@ -46,10 +46,10 @@ function escapeOutput(toOutput){
 }
 
 function noteItemGive(title, note){
-  var noteItem= '<div style="border-style: solid; border-color: black; border-width: 4px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
+  var noteItem= '<div style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
               + ' <li>'
               + '   <span style="font-weight: bold; font-size: 24px; margin-right: 2%; display: inline-block; word-break: break-word;" class="notetitle">'+title+'</span>'
-              + '   <div style="width:80%; border: 2px solid #a883f8;"></div>'
+              + '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>'
               + '   <p class="note" style="padding: 0px; margin: 0px; margin-right: 2%; display: inline-block; word-break: break-word;">'+note+'</p>'
               + ' </li>'
               + '</div>'
@@ -57,13 +57,13 @@ function noteItemGive(title, note){
 }
 
 function passItemGive(website, username, password, id){
-  var passItem= '<div style="border-style: solid; border-color: black; border-width: 4px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
+  var passItem= '<div style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
               + ' <li>'
               + '   <i class="fa fa-globe" aria-hidden="true" style="margin-left: 1%;"></i> <span class="website" style="margin:2%; font-weight: bold; font-size: 16px; display: inline-block; word-break: break-word;">'+website+'</span>'
-              + '   <div style="width:80%; border: 2px solid #a883f8;"></div>'
+              + '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>'
               + '   <i class="fa fa-user" aria-hidden="true" style="margin-left: 1%;"></i> <p class="username" style="font-size: large; margin: 1%; display: inline-block; word-break: break-word;">'+username+'</p>'
               + '   <div class="password-group" style="margin:1%;">'
-              + '     <input readonly class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:80%; margin: 0px; margin-right: 3.5%; border-style: solid; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
+              + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:80%; margin: 0px; margin-right: 3.5%; border-style: solid; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
               + '     <input type="checkbox" class="password-visibility" style="width: 28px; height: 28px; vertical-align: middle; box-shadow: 0px 0px; ">'              
               + '   </div>'
               + ' </li>'
@@ -112,6 +112,7 @@ function loadUserData(){
 
             generateReadables()
             $("#mainScreenSomethingFound").show()
+
           }
         }
       });
@@ -142,7 +143,7 @@ function saveSecNote(title, note){
             $("#mainScreenNothingFound").hide()
             $("#mainScreenSomethingFound").show()
           }
-          $("#notes-list").prepend(noteItemGive(title, note))
+          $("#notes-list").prepend(noteItemGive(escapeOutput(title), escapeOutput(note)))
         });
       });
     });

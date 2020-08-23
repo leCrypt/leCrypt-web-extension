@@ -33,6 +33,11 @@ $(function(){
     });
 
     $("#loginAccountScreen").ready(function(){
+      $('#submitLoginInput').keydown(function(e) {
+        if (e.keyCode == 13) {
+            $('#submitLoginBtn').click();
+        }
+      });
       $("#submitLoginBtn").click(function(){
         var pass = $("#submitLoginInput").val()
         chrome.storage.local.get(['secpassverify'], function(data){
@@ -61,7 +66,11 @@ $(function(){
               $("#loginAccountSubmitError").text("Incorrect password!");
             }
           } else {
-            console.log("[DEBUG] submitLoginBtn shouldn't reach here!");
+            $('#form input').keydown(function(e) {
+              if (e.keyCode == 13) {
+                  $('#form').submit();
+              }
+          });console.log("[DEBUG] submitLoginBtn shouldn't reach here!");
           }
         });
       });

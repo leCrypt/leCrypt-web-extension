@@ -73,3 +73,40 @@ textarea {
 }
 
 ul, li {list-style-type: none;}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+ 
+/* button */
+::-webkit-scrollbar-button {
+    background: #6c63ff;
+    border-radius: 50px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #6c63ff;
+    border-radius: 50px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #d3d3d3;
+}
+ 
+/* The track NOT covered by the handle.
+::-webkit-scrollbar-track-piece {
+    background: #000;
+}
+ 
+/* Corner */
+::-webkit-scrollbar-corner {
+    background: #999999;
+}
+ 
+/* Resizer */
+::-webkit-resizer {
+    background: #111111;
+}
