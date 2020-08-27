@@ -245,6 +245,7 @@ function loadUserData(){
         if(ik!=undefined){
           if(notes.length==0&&passes.length==0){
             $("#mainScreenNothingFound").show()
+            $("#searchBarNotePassword").hide()
           } else {
             generateNotesReadables(ik, notes)
             generatePassesReadables(ik, passes)

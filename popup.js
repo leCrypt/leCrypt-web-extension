@@ -13,9 +13,33 @@ $(function(){
   console.log("[DEBUG] Secpass started!");
 
   $("#searchBarNotePassword").on("input", function(){
-    
+    var search = $("#searchBarNotePassword").val()
+    chrome.storage.local.get(['secpassNotesData'], function(data){
+      var notes = data.secpassNotesData
+      chrome.storage.local.get(['secpassPassesData'], function(data){
+        var passes = data.secpassPassesData
+        chrome.storage.local.get(['secpassd'], function(data){
+          var ik = data.secpassd.ik
+          if(ik!=undefined){
+              filteredNotes = notes.filter(function(value, i, arr){ 
+                var title = escapeOutput(CryptoJS.AES.decrypt(arr[i].title, ik).toString(CryptoJS.enc.Utf8));
+                var note = escapeOutput(CryptoJS.AES.decrypt(arr[i].note, ik).toString(CryptoJS.enc.Utf8));
+
+                return title.includes(search) || note.includes(search)
+              })
+              generateNotesReadables(ik, filteredNotes)
+              filteredPassword = passes.filter(function(value, i, arr){
+                  var website = escapeOutput(CryptoJS.AES.decrypt(arr[i].website, ik).toString(CryptoJS.enc.Utf8));
+                  var username = escapeOutput(CryptoJS.AES.decrypt(arr[i].username, ik).toString(CryptoJS.enc.Utf8));
+                return website.includes(search) || username.includes(search)
+              })
+              generatePassesReadables(ik, filteredPassword)
+            }
+          })
+        })
+      })
+    })
     //todo filter notes and passwords
-  });
 
   $("#mainScreen").ready(function(){
 
@@ -119,9 +143,6 @@ $(function(){
 
   $("#createAccountScreen").ready(function(){
 
-    // edit the login and notes
-    
-
     $('#createAccountPassword1').keydown(function(e) {
       if (e.keyCode == 13) {
           $('#createAccountPassword2').focus();
@@ -152,7 +173,6 @@ $(function(){
 
           var hash = CryptoJS.PBKDF2(pass1, "");
           
-          //TODO change it to user's machine 
           userVerifyData = {
             "sample": byteArrayToString(hash.words)
           }
