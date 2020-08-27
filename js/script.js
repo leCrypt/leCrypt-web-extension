@@ -9,6 +9,7 @@ $("#addSecNote").click(function(){
   $("#addSecNoteDialogTitle").text("Add Note")
   $("#addSecNoteInputTitle").val("")
   $("#addSecNoteInputTextArea").val("")
+  $("#addSecNoteSubmitError").val("")
   $("#addSecNoteSaveBtn").show()
   $("#saveEditNoteBtn").hide()
   $("#deleteEditNoteBtn").hide()
@@ -20,6 +21,7 @@ $("#addSecPassword").click(function(){
   $("#addSecPasswordInputWebsite").val("")
   $("#addSecPasswordInputUsername").val("")
   $("#addSecPasswordInputPassword").val("")
+  $("#addSecPasswordSubmitError").val("")
   $("#addSecPasswordSaveBtn").show()
   $("#saveEditPasswordBtn").hide()
   $("#deleteEditPasswordBtn").hide()
@@ -65,8 +67,11 @@ function passItemGive(website, username, password, id){
               + '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>'
               + '   <p class="username" style="font-size: large; margin: 1%; display: inline-block; word-break: break-word;">'+username+'</p>'
               + '   <div class="password-group" style="margin:1%;">'
-              + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:80%; margin: 0px; margin-right: 3.5%; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
-              + '     <input type="checkbox" id="passCheck'+id+'" class="password-visibility" style="width: 28px; height: 28px; vertical-align: middle; box-shadow: 0px 0px;">'              
+              + '   <div>'
+              + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:73%; margin: 0px; margin-right: 2%; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
+              + '     <span style="font-size: x-large; vertical-align: middle; margin-bottom: 3px;" class="clipper tooltip"><i class="far fa-clipboard"></i><span class="tooltiptext">copy</span></span>'
+              + '     <input type="checkbox" id="passCheck'+id+'" class="password-visibility" style="width: 28px; height: 28px; margin-left: 2%; vertical-align: middle; box-shadow: 0px 0px;">'              
+              + '   </div>'
               + '   </div>'
               + ' </li>'
               + '</div>'
@@ -93,7 +98,19 @@ function generatePassesReadables(ik, passes){
       }
     });
   });
-  
+  $('.password-group').find('.clipper').each(function(index, clipper){
+    $(clipper).click(function(){
+      $(clipper).parent().find('.password-box').attr('type', "text")
+      $(clipper).parent().find('.password-box').select()
+      document.execCommand("copy")
+      $(clipper).parent().find('.password-box').attr('type', "password")
+      $(clipper).find('.tooltiptext').text("copied!")
+      setTimeout(function(){
+        $(clipper).find('.tooltiptext').text("copy")
+      }, 600)
+
+    })
+  })
   $(".password-header").find(".edit-password").each(function(index, div){
 
     var $div = $(div)
@@ -106,6 +123,7 @@ function generatePassesReadables(ik, passes){
       $("#addSecPasswordInputWebsite").val(website)
       $("#addSecPasswordInputUsername").val(username)
       $("#addSecPasswordInputPassword").val(password)
+      $("#addSecPasswordSubmitError").val("")
       $("#addSecPasswordSaveBtn").hide()
       $("#saveEditPasswordBtn").show()
       $("#deleteEditPasswordBtn").show()
@@ -170,6 +188,7 @@ function generateNotesReadables(ik, notes){
       var note = escapeOutput(CryptoJS.AES.decrypt(notes[index].note, ik).toString(CryptoJS.enc.Utf8));
       $("#addSecNoteInputTitle").val(title)
       $("#addSecNoteInputTextArea").val(note)
+      $("#addSecNoteSubmitError").val("")
       $("#addSecNoteSaveBtn").hide()
       $("#saveEditNoteBtn").show()
       $("#deleteEditNoteBtn").show()
@@ -271,7 +290,9 @@ function saveSecNote(title, note){
 }
 
 function saveSecPassword(website, username, password){
-  if(website!=""&&username!=""&&password!=""){
+  if(!regexUsername(website)){
+    $("#addSecPasswordSubmitError").text("Invalid Website URL!")
+  } else if(website!=""&&username!=""&&password!="") {
     chrome.storage.local.get(['secpassd'], function(data){
       var key = data.secpassd.ik;
       var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
@@ -303,4 +324,8 @@ function saveSecPassword(website, username, password){
   } else {
     $("#addSecPasswordSubmitError").text("Empty fields!")
   }
+}
+
+function regexUsername(inp){
+  return /^(https?):\/\/[^\s$.?#].[^\s]*$/i.test(inp);
 }

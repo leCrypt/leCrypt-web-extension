@@ -150,3 +150,30 @@ ul, li {list-style-type: none;}
     padding-right: 4%;
     color: #138496;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: 12px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 2px;
+    padding-bottom: 4px;
+    padding-right: 6px;
+    padding-left: 8px;
+    margin-left: 2px;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 5;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

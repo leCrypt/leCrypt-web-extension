@@ -48,7 +48,7 @@
         <section id="mainScreen" style="display: grid; place-items: center; padding-top: 4%;">
 
             <!-- Add Note Dialog -->
-            <dialog id="addSecNoteDialog" style="width: 87%; height: 87%;">
+            <dialog id="addSecNoteDialog" style="width: 87%; height: 87%; z-index: 16;">
                 <form method="dialog">
                     <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
                         <h1 id="addSecNoteDialogTitle" class="title">Add Note</h1>
@@ -64,7 +64,7 @@
             </dialog>
 
             <!-- Add Password Dialog -->
-            <dialog id="addSecPasswordDialog" style="width: 87%; height: 87%;">
+            <dialog id="addSecPasswordDialog" style="width: 87%; height: 87%; z-index: 16;">
                 <form method="dialog">
                     <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
                         <h1 id="addSecPasswordDialogTitle" class="title">Add Password</h1>
@@ -77,7 +77,7 @@
                 <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
                 <button id="saveEditPasswordBtn" style="width: 25%; height: 14%; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 5%;"><b>Save</b></button>
                 <button id="deleteEditPasswordBtn"><b>Delete</b></button>
-                <span id="addSecPasswordSubmitError" style="margin-top: 2%;"></span>
+                <span id="addSecPasswordSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
             </dialog>
             
             <!-- Main Screen Header -->
@@ -85,7 +85,7 @@
                 <button id="addSecNote" style="margin-left: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-sticky-note" aria-hidden="true"></i></button>
                 </button>
-                <button><i style="font-size: xx-large; padding-top: 1%;" class="fas fa-search"></i>
+                <input id="searchBarNotePassword" style="width: 40%; height: 10%; margin-top: 1%;" placeholder="search"/>
                 <button id="addSecPassword" style="margin-right: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-key" aria-hidden="true"></i>
                 </button>
@@ -96,7 +96,6 @@
                 <div style="overflow-y: scroll; height:335px; width: 50%;">
                     <ul id="notes-list" class="list">
                     </ul>
-
                 </div>
                 <div style="overflow-y: scroll; height:335px; width: 50%;">
                     <ul id="passes-list" class="list">
