@@ -13,6 +13,7 @@ $(function(){
   console.log("[DEBUG] Secpass started!");
 
   $("#searchBarNotePassword").on("input", function(){
+    
     //todo filter notes and passwords
   });
 

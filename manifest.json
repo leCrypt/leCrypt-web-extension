@@ -9,7 +9,7 @@
 		"64": "icons/icon64.png"
 	},
 	
-	"permissions": ["activeTab", "idle", "storage", "tabs", {"fileSystem": ["write"]}],
+	"permissions": ["activeTab", "idle", "storage", "tabs"],
 	"background": {
 		"scripts": ["js/jquery.js", "js/background.js"],
 		"persistent": true
