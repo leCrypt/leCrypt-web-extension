@@ -14,8 +14,8 @@
         <section id="homeScreen" style="display: grid; place-items: center; padding-top: 18%;">
             <img src="icons/inv.png" style="padding-bottom: 5%;"/>
             <div>
-                <button id="createAccountBtn" style="margin: 25px;"><b>Create</b></button>
-                <button id="importAccountBtn" style="margin: 25px;"><b>Import</b></button>
+                <button id="createAccountBtn" style="margin: 25px;"><b>Register</b></button>
+                <button id="importAccountBtn" style="margin: 25px;"><b>Login</b></button>
             </div>
         </section>
 
@@ -51,21 +51,23 @@
             <dialog id="addSecNoteDialog" style="width: 87%; height: 87%;">
                 <form method="dialog">
                     <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
-                        <h1 class="title">Add Note</h1>
+                        <h1 id="addSecNoteDialogTitle" class="title">Add Note</h1>
                         <button id="addSecNoteDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
                     <input id="addSecNoteInputTitle" style="width: 98%;" placeholder="title"/>
                     <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px; resize: none;" placeholder="note"></textarea>
                 </form>
-                <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 8px;"><i class="fa fa-check" aria-hidden="true"></i></button>
-                <span id="addSecNoteSubmitError" style="margin-top: 2%;"></span>
+                <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 8px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <button id="saveEditNoteBtn" style="width: 25%; height: 14%; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 8px;"><b>Save</b></button>
+                <button id="deleteEditNoteBtn"><b>Delete</b></button>
+                <span id="addSecNoteSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
             </dialog>
 
             <!-- Add Password Dialog -->
             <dialog id="addSecPasswordDialog" style="width: 87%; height: 87%;">
                 <form method="dialog">
                     <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
-                        <h1 class="title">Add Password</h1>
+                        <h1 id="addSecPasswordDialogTitle" class="title">Add Password</h1>
                         <button id="addSecPasswordDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
                     <input id="addSecPasswordInputWebsite" style="width: 98%;" placeholder="https://example.com/"/>
@@ -73,15 +75,17 @@
                     <input id="addSecPasswordInputPassword" type="password" style="width: 98%; margin-top: 6%;" placeholder="password"/>
                 </form>
                 <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <button id="saveEditPasswordBtn" style="width: 25%; height: 14%; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 5%;"><b>Save</b></button>
+                <button id="deleteEditPasswordBtn"><b>Delete</b></button>
                 <span id="addSecPasswordSubmitError" style="margin-top: 2%;"></span>
             </dialog>
             
             <!-- Main Screen Header -->
             <div style="padding-bottom: 3%; display: flex; justify-content: space-between; width: 100%;">
                 <button id="addSecNote" style="margin-left: 5%;">
-                    <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                    <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-sticky-note" aria-hidden="true"></i></button>
                 </button>
-                <img src="icons/inv.png"/>
+                <button><i style="font-size: xx-large; padding-top: 1%;" class="fas fa-search"></i>
                 <button id="addSecPassword" style="margin-right: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-key" aria-hidden="true"></i>
                 </button>
@@ -90,16 +94,13 @@
             <!-- List of Notes/Passwords -->
             <div id="mainScreenSomethingFound" style="display: flex; justify-content: space-between; width: 100%;">
                 <div style="overflow-y: scroll; height:335px; width: 50%;">
-                    <div id="notes-list">
-                        <ul class="list">
-                        </ul>
-                    </div>
+                    <ul id="notes-list" class="list">
+                    </ul>
+
                 </div>
                 <div style="overflow-y: scroll; height:335px; width: 50%;">
-                    <div id="passes-list">
-                        <ul class="list">
-                        </ul>
-                    </div>
+                    <ul id="passes-list" class="list">
+                    </ul>
                 </div>
             </div>
 

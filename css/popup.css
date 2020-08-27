@@ -29,6 +29,40 @@ button:hover {
     color: black;
 }
 
+#deleteEditNoteBtn {
+    width: 25%;
+    height: 14%;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: 0px 0px;
+    margin-top: 8px;
+    color: white;
+    background-color: red;
+}
+
+#deleteEditNoteBtn:hover {
+    border-width: 3px;
+    background-color: white;
+    color: black;
+}
+
+#deleteEditPasswordBtn {
+    width: 25%;
+    height: 14%;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: 0px 0px;
+    margin-top: 8px;
+    color: white;
+    background-color: red;
+}
+#deleteEditPasswordBtn:hover {
+    border-width: 3px;
+    background-color: white;
+    color: black;
+}
+
+
 input {
     border-style: solid;
     border-color: black;
@@ -109,4 +143,10 @@ ul, li {list-style-type: none;}
 /* Resizer */
 ::-webkit-resizer {
     background: #111111;
+}
+
+.smallboxes{
+    padding-top: 2%;
+    padding-right: 4%;
+    color: #138496;
 }

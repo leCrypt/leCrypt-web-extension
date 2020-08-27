@@ -7,6 +7,8 @@ $(function(){
   $("#loginAccountScreen").hide();
   $("#mainScreenNothingFound").hide()
   $("#mainScreenSomethingFound").hide()
+  $("#saveEditNoteBtn").hide()
+  $("#saveEditPasswordBtn").hide()
 
   console.log("[DEBUG] Secpass started!");
 
@@ -33,6 +35,7 @@ $(function(){
     });
 
     $("#loginAccountScreen").ready(function(){
+      $("#submitLoginInput").focus()
       $('#submitLoginInput').keydown(function(e) {
         if (e.keyCode == 13) {
             $('#submitLoginBtn').click();
@@ -81,6 +84,7 @@ $(function(){
       var note = $("#addSecNoteInputTextArea").val();
       saveSecNote(title, note)
     });
+    
     $("#addSecNoteDialogClose").click(function(){
       $("#addSecNoteDialog").css("display", "none")
     });
@@ -109,6 +113,20 @@ $(function(){
   });
 
   $("#createAccountScreen").ready(function(){
+
+    // edit the login and notes
+    
+
+    $('#createAccountPassword1').keydown(function(e) {
+      if (e.keyCode == 13) {
+          $('#createAccountPassword2').focus();
+      }
+    });
+    $('#createAccountPassword2').keydown(function(e) {
+      if (e.keyCode == 13) {
+          $('#submitAccountPassowrdsBtn').click();
+      }
+    });
     $("#submitAccountPassowrdsBtn").click(function(){
       var pass1 = $("#createAccountPassword1").val();
       var pass2 = $("#createAccountPassword2").val();

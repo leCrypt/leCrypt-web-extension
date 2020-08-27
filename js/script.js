@@ -4,28 +4,25 @@ var addSecNoteDialog = document.getElementById('addSecNoteDialog');
 var addSecPasswordButton = document.getElementById('addSecPassword');
 var addSecPasswordDialog = document.getElementById('addSecPasswordDialog');
 
-var passesValues = [];
-
-var notesValues = [];
-
-var passesList;
-
-var notesList;
-
-addSecNoteButton.addEventListener('click', function onOpen() {
-  if (typeof addSecNoteDialog.showModal === "function") {
-    $("#addSecNoteDialog").css("display", "block")
-  } else {
-    alert("The <dialog> API is not supported by this browser");
-  }
+$("#addSecNote").click(function(){
+  $("#addSecNoteDialog").css("display", "block")
+  $("#addSecNoteDialogTitle").text("Add Note")
+  $("#addSecNoteInputTitle").val("")
+  $("#addSecNoteInputTextArea").val("")
+  $("#addSecNoteSaveBtn").show()
+  $("#saveEditNoteBtn").hide()
+  $("#deleteEditNoteBtn").hide()
 });
 
-addSecPasswordButton.addEventListener('click', function onOpen() {
-    if (typeof addSecNoteDialog.showModal === "function") {
-      $("#addSecPasswordDialog").css("display", "block")
-    } else {
-      alert("The <dialog> API is not supported by this browser");
-    }
+$("#addSecPassword").click(function(){
+  $("#addSecPasswordDialog").css("display", "block")
+  $("#addSecPasswordDialogTitle").text("Add Password")
+  $("#addSecPasswordInputWebsite").val("")
+  $("#addSecPasswordInputUsername").val("")
+  $("#addSecPasswordInputPassword").val("")
+  $("#addSecPasswordSaveBtn").show()
+  $("#saveEditPasswordBtn").hide()
+  $("#deleteEditPasswordBtn").hide()
 });
 
 function byteArrayToString(byteArray) {
@@ -41,14 +38,16 @@ function escapeOutput(toOutput){
       .replace(/\</g, '&lt;')
       .replace(/\>/g, '&gt;')
       .replace(/\"/g, '&quot;')
-      .replace(/\'/g, '&#x27')
-      .replace(/\//g, '&#x2F');
+      .replace(/\'/g, '&#x27');
 }
 
 function noteItemGive(title, note){
   var noteItem= '<div style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
               + ' <li>'
-              + '   <span style="font-weight: bold; font-size: 24px; margin-right: 2%; display: inline-block; word-break: break-word;" class="notetitle">'+title+'</span>'
+              + ' <div class="notes-header" style="display: flex; justify-content: space-between;">'
+              + '   <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; font-size: 24px; margin-right: 2%; display: inline-block; word-break: break-word;" class="notetitle">'+title+'</span>'
+              + '   <div class="smallboxes edit-note"><i class="fas fa-pen"></i></div>'
+              + ' </div>' 
               + '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>'
               + '   <p class="note" style="padding: 0px; margin: 0px; margin-right: 2%; display: inline-block; word-break: break-word;">'+note+'</p>'
               + ' </li>'
@@ -59,29 +58,161 @@ function noteItemGive(title, note){
 function passItemGive(website, username, password, id){
   var passItem= '<div style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">'
               + ' <li>'
-              + '   <i class="fa fa-globe" aria-hidden="true" style="margin-left: 1%;"></i> <span class="website" style="margin:2%; font-weight: bold; font-size: 16px; display: inline-block; word-break: break-word;">'+website+'</span>'
+              + '   <div class="password-header" style="display: flex; justify-content: space-between;">'
+              + '     <span class="website" style="margin-top: 2%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-weight: bold; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">'+website+'</span>'
+              + '     <div class="smallboxes edit-password"><i class="fas fa-pen"></i></div>'
+              + '   </div>'
               + '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>'
-              + '   <i class="fa fa-user" aria-hidden="true" style="margin-left: 1%;"></i> <p class="username" style="font-size: large; margin: 1%; display: inline-block; word-break: break-word;">'+username+'</p>'
+              + '   <p class="username" style="font-size: large; margin: 1%; display: inline-block; word-break: break-word;">'+username+'</p>'
               + '   <div class="password-group" style="margin:1%;">'
-              + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:80%; margin: 0px; margin-right: 3.5%; border-style: solid; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
-              + '     <input type="checkbox" class="password-visibility" style="width: 28px; height: 28px; vertical-align: middle; box-shadow: 0px 0px; ">'              
+              + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:80%; margin: 0px; margin-right: 3.5%; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
+              + '     <input type="checkbox" id="passCheck'+id+'" class="password-visibility" style="width: 28px; height: 28px; vertical-align: middle; box-shadow: 0px 0px;">'              
               + '   </div>'
               + ' </li>'
               + '</div>'
   return passItem;
 }
 
-function generateReadables(){
+function generatePassesReadables(ik, passes){
+  $("#passes-list").empty()
+  
+  for(i=0; i<passes.length;i++){
+    var website = escapeOutput(CryptoJS.AES.decrypt(passes[i].website, ik).toString(CryptoJS.enc.Utf8));
+    var username = escapeOutput(CryptoJS.AES.decrypt(passes[i].username, ik).toString(CryptoJS.enc.Utf8));
+    var password = escapeOutput(CryptoJS.AES.decrypt(passes[i].password, ik).toString(CryptoJS.enc.Utf8));
+    $("#passes-list").append(passItemGive(website, username, password, i))
+  }
+
   $('.password-group').find('.password-box').each(function(index, input) {
     var $input = $(input);
     $input.parent().find('.password-visibility').click(function() {
-        if($input.attr('type')=="password"){
-          $input.attr('type', "text")
-        } else {
-          $input.attr('type', "password")
-        }
+      if($input.attr('type')=="password"){
+        $input.attr('type', "text")
+      } else {
+        $input.attr('type', "password")
+      }
     });
   });
+  
+  $(".password-header").find(".edit-password").each(function(index, div){
+
+    var $div = $(div)
+    $div.click(function(){
+      $("#addSecPasswordDialog").css("display", "block")
+      $("#addSecPasswordDialogTitle").text("Edit Password")
+      var website = escapeOutput(CryptoJS.AES.decrypt(passes[index].website, ik).toString(CryptoJS.enc.Utf8));
+      var username = escapeOutput(CryptoJS.AES.decrypt(passes[index].username, ik).toString(CryptoJS.enc.Utf8));
+      var password = escapeOutput(CryptoJS.AES.decrypt(passes[index].password, ik).toString(CryptoJS.enc.Utf8));
+      $("#addSecPasswordInputWebsite").val(website)
+      $("#addSecPasswordInputUsername").val(username)
+      $("#addSecPasswordInputPassword").val(password)
+      $("#addSecPasswordSaveBtn").hide()
+      $("#saveEditPasswordBtn").show()
+      $("#deleteEditPasswordBtn").show()
+      
+      $("#saveEditPasswordBtn").click(function(){
+        var key = ik;
+        var webE = $("#addSecPasswordInputWebsite").val()
+        var usrE = $("#addSecPasswordInputUsername").val()
+        var passE = $("#addSecPasswordInputPassword").val()
+        var encryptedWebsite = CryptoJS.AES.encrypt(webE, key).toString();
+        var encryptedUsername = CryptoJS.AES.encrypt(usrE, key).toString();
+        var encryptedPassword = CryptoJS.AES.encrypt(passE, key).toString();
+        encryptedPayload = {
+          "website": encryptedWebsite,
+          "username": encryptedUsername,
+          "password": encryptedPassword
+        }
+        passes[index] = encryptedPayload
+        chrome.storage.local.set({'secpassPassesData': passes}, function(){
+          console.log("[DEBUG] Editing password in passwords!")
+          console.log(passes)
+          $("#addSecPasswordInputWebsite").val("")
+          $("#addSecPasswordInputUsername").val("")
+          $("#addSecPasswordInputPassword").val("")
+          $("#addSecPasswordDialog").css("display", "none")
+          generatePassesReadables(key, passes)
+        })
+      })
+
+      $("#deleteEditPasswordBtn").click(function(){
+        arr = passes.filter(function(value, i, arr){ return i != index;});
+        chrome.storage.local.set({'secpassPassesData': arr}, function(){
+          console.log("[DEBUG] Deleting password from passwords!: "+new Date())
+          console.log(arr)
+          $("#addSecPasswordInputWebsite").val("")
+          $("#addSecPasswordInputUsername").val("")
+          $("#addSecPasswordInputPassword").val("")
+          $("#addSecPasswordDialog").css("display", "none")
+          generatePassesReadables(ik, arr)
+        });
+      })
+
+    })
+  })
+}
+
+function generateNotesReadables(ik, notes){
+  $("#notes-list").empty()
+  
+  for(i=0; i<notes.length;i++){
+    var title = escapeOutput(CryptoJS.AES.decrypt(notes[i].title, ik).toString(CryptoJS.enc.Utf8));
+    var note = escapeOutput(CryptoJS.AES.decrypt(notes[i].note, ik).toString(CryptoJS.enc.Utf8));
+    $("#notes-list").append(noteItemGive(title, note))
+  }
+
+  $(".notes-header").find(".edit-note").each(function(index, div){
+    var $div = $(div)
+    $div.click(function(){
+      $("#addSecNoteDialog").css("display", "block")
+      $("#addSecNoteDialogTitle").text("Edit Note")
+      var title = escapeOutput(CryptoJS.AES.decrypt(notes[index].title, ik).toString(CryptoJS.enc.Utf8));
+      var note = escapeOutput(CryptoJS.AES.decrypt(notes[index].note, ik).toString(CryptoJS.enc.Utf8));
+      $("#addSecNoteInputTitle").val(title)
+      $("#addSecNoteInputTextArea").val(note)
+      $("#addSecNoteSaveBtn").hide()
+      $("#saveEditNoteBtn").show()
+      $("#deleteEditNoteBtn").show()
+      
+      $("#saveEditNoteBtn").click(function(){
+        var key = ik;
+        var title = $("#addSecNoteInputTitle").val();
+        var note = $("#addSecNoteInputTextArea").val();
+        var encryptedTitle = CryptoJS.AES.encrypt(title, key).toString();
+        var encryptedNote = CryptoJS.AES.encrypt(note, key).toString();
+        encryptedPayload = {
+          "title": encryptedTitle,
+          "note": encryptedNote
+        }
+        notes[index] = encryptedPayload
+        chrome.storage.local.set({'secpassNotesData': notes}, function(){
+          console.log("[DEBUG] Editing note in notes!: "+new Date())
+          console.log(notes)
+          $("#addSecNoteInputTitle").val("")
+          $("#addSecNoteInputTextArea").val("")
+          $("#addSecNoteDialog").css("display", "none")
+
+          generateNotesReadables(key, notes)
+        });
+      })
+
+      $("#deleteEditNoteBtn").click(function(){
+        arr = notes.filter(function(value, i, arr){ return i != index;});
+        chrome.storage.local.set({'secpassNotesData': arr}, function(){
+          console.log("[DEBUG] Deleting note in notes!: "+new Date())
+          console.log(arr)
+          $("#addSecNoteInputTitle").val("")
+          $("#addSecNoteInputTextArea").val("")
+          $("#addSecNoteDialog").css("display", "none")
+    
+          generateNotesReadables(ik, arr)
+        });
+      })
+      console.log(index)
+    })
+    
+  })
+
 }
 
 function loadUserData(){
@@ -96,23 +227,9 @@ function loadUserData(){
           if(notes.length==0&&passes.length==0){
             $("#mainScreenNothingFound").show()
           } else {
-            
-            for(i=0; i<notes.length;i++){
-              var title = escapeOutput(CryptoJS.AES.decrypt(notes[i].title, ik).toString(CryptoJS.enc.Utf8));
-              var note = escapeOutput(CryptoJS.AES.decrypt(notes[i].note, ik).toString(CryptoJS.enc.Utf8));
-              $("#notes-list").append(noteItemGive(title, note))
-            }
-
-            for(i=0; i<passes.length;i++){
-              var website = escapeOutput(CryptoJS.AES.decrypt(passes[i].website, ik).toString(CryptoJS.enc.Utf8));
-              var username = escapeOutput(CryptoJS.AES.decrypt(passes[i].username, ik).toString(CryptoJS.enc.Utf8));
-              var password = escapeOutput(CryptoJS.AES.decrypt(passes[i].password, ik).toString(CryptoJS.enc.Utf8));
-              $("#passes-list").append(passItemGive(website, username, password, i))
-            }
-
-            generateReadables()
+            generateNotesReadables(ik, notes)
+            generatePassesReadables(ik, passes)
             $("#mainScreenSomethingFound").show()
-
           }
         }
       });
@@ -136,14 +253,15 @@ function saveSecNote(title, note){
         chrome.storage.local.set({'secpassNotesData': notesArray}, function(){
           console.log("[DEBUG] Adding note to notes!")
           console.log(notesArray)
-          $("#addSecNoteInputTitle").text("");
-          $("#addSecNoteInputTextArea").text("")
+          $("#addSecNoteInputTitle").val("")
+          $("#addSecNoteInputTextArea").val("")
           $("#addSecNoteDialog").css("display", "none")
+          
           if($("#mainScreenNothingFound").is(":visible")){
             $("#mainScreenNothingFound").hide()
             $("#mainScreenSomethingFound").show()
           }
-          $("#notes-list").prepend(noteItemGive(escapeOutput(title), escapeOutput(note)))
+          generateNotesReadables(key, notesArray)
         });
       });
     });
@@ -170,16 +288,15 @@ function saveSecPassword(website, username, password){
         chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
           console.log("[DEBUG] Adding password to passwords!")
           console.log(passesArray)
-          $("#addSecPasswordInputWebsite").text("")
-          $("#addSecPasswordInputUsername").text("")
-          $("#addSecPasswordInputPassword").text("")
+          $("#addSecPasswordInputWebsite").val("")
+          $("#addSecPasswordInputUsername").val("")
+          $("#addSecPasswordInputPassword").val("")
           $("#addSecPasswordDialog").css("display", "none")
           if($("#mainScreenNothingFound").is(":visible")){
             $("#mainScreenNothingFound").hide()
             $("#mainScreenSomethingFound").show()
           }
-          $("#passes-list").prepend(passItemGive(website, username, password, passesArray.length-1))
-          generateReadables()
+          generatePassesReadables(key, passesArray)
         });
       });
     });
