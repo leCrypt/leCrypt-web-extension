@@ -69,7 +69,7 @@ function passItemGive(website, username, password, id){
               + '   <div class="password-group" style="margin:1%;">'
               + '   <div>'
               + '     <input readonly id="passInput'+id+'" class="form-control password-box" aria-label="password" type="password" style="vertical-align: middle; width:73%; margin: 0px; margin-right: 2%; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" value="'+password+'">'
-              + '     <span style="font-size: x-large; vertical-align: middle; margin-bottom: 3px;" class="clipper tooltip"><i class="far fa-clipboard"></i><span class="tooltiptext">copy</span></span>'
+              + '     <span style="font-size: x-large; vertical-align: middle; margin-bottom: 3px;" class="clipper tooltip"><b><i class="far fa-clipboard"></i></b><span class="tooltiptext">copy</span></span>'
               + '     <input type="checkbox" id="passCheck'+id+'" class="password-visibility" style="width: 28px; height: 28px; margin-left: 2%; vertical-align: middle; box-shadow: 0px 0px;">'              
               + '   </div>'
               + '   </div>'
@@ -108,7 +108,8 @@ function generatePassesReadables(ik, passes){
       setTimeout(function(){
         $(clipper).find('.tooltiptext').text("copy")
       }, 600)
-
+      
+      //todo add checkbox check
     })
   })
   $(".password-header").find(".edit-password").each(function(index, div){

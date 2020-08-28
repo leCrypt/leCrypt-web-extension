@@ -9,14 +9,36 @@
 		"64": "icons/icon64.png"
 	},
 	
-	"permissions": ["activeTab", "idle", "storage", "tabs"],
+	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
+	
 	"background": {
-		"scripts": ["js/jquery.js", "js/background.js"],
+		"scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
 		"persistent": true
 	},
+  	"content_scripts": [{
+      	"matches": [
+        	"*://*/*"
+      	],
+      	"js": [
+        	"js/autofill.js"
+      	]
+    }],	
+	"commands": {
+    	"_execute_browser_action": {
+    		"suggested_key": {
+        		"windows": "Alt+Shift+X",
+        		"mac": "Alt+Shift+X",
+        		"chromeos": "Alt+Shift+X",
+        		"linux": "Alt+Shift+X"
+      		}
+    	}
+  	},
 	"browser_action": {
 		"default_icon": "icons/icon32.png",
 		"default_title": "Secpass",
 		"default_popup": "popup.html"
-	}
+	},
+	"web_accessible_resources": [
+    	"js/autofill.js"
+  	]
 }

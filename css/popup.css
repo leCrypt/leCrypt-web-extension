@@ -29,40 +29,6 @@ button:hover {
     color: black;
 }
 
-#deleteEditNoteBtn {
-    width: 25%;
-    height: 14%;
-    padding: 0px;
-    border-width: 0px;
-    box-shadow: 0px 0px;
-    margin-top: 8px;
-    color: white;
-    background-color: red;
-}
-
-#deleteEditNoteBtn:hover {
-    border-width: 3px;
-    background-color: white;
-    color: black;
-}
-
-#deleteEditPasswordBtn {
-    width: 25%;
-    height: 14%;
-    padding: 0px;
-    border-width: 0px;
-    box-shadow: 0px 0px;
-    margin-top: 8px;
-    color: white;
-    background-color: red;
-}
-#deleteEditPasswordBtn:hover {
-    border-width: 3px;
-    background-color: white;
-    color: black;
-}
-
-
 input {
     border-style: solid;
     border-color: black;
@@ -91,6 +57,40 @@ textarea {
     color: black;
 }
 
+#deleteEditNoteBtn {
+    width: 25%;
+    height: 14%;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: 0px 0px;
+    margin-top: 8px;
+    color: white;
+    background-color: red;
+}
+
+#deleteEditNoteBtn:hover {
+    border-width: 3px;
+    background-color: white;
+    color: black;
+}
+
+#deleteEditPasswordBtn {
+    width: 25%;
+    height: 14%;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: 0px 0px;
+    margin-top: 8px;
+    color: white;
+    background-color: red;
+}
+
+#deleteEditPasswordBtn:hover {
+    border-width: 3px;
+    background-color: white;
+    color: black;
+}
+
 .listItemPass{
     border-style: solid;
     border-color: black;
@@ -104,6 +104,39 @@ textarea {
     box-shadow: 0px 0px;
     color: black;
     width: 80%;
+}
+
+.smallboxes{
+    padding-top: 2%;
+    padding-right: 4%;
+    color: #138496;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: 12px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 2px;
+    padding-bottom: 4px;
+    padding-right: 6px;
+    padding-left: 8px;
+    margin-left: 2px;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 5;
+}
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 
 ul, li {list-style-type: none;}
@@ -144,36 +177,3 @@ ul, li {list-style-type: none;}
 ::-webkit-resizer {
     background: #111111;
 }
-
-.smallboxes{
-    padding-top: 2%;
-    padding-right: 4%;
-    color: #138496;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    font-size: 12px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 10px;
-    padding-top: 2px;
-    padding-bottom: 4px;
-    padding-right: 6px;
-    padding-left: 8px;
-    margin-left: 2px;
-  
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 5;
-  }
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-  }
