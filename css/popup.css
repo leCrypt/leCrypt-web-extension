@@ -134,7 +134,49 @@ textarea {
     position: absolute;
     z-index: 5;
 }
+
+#import {
+    position: absolute;
+    left: -140px;
+    transition: 0.2s;
+    height: 17%;
+    width: 150px;
+    text-decoration: none;
+    font-size: 30px;
+    box-shadow: 0 0;
+    border-radius: 0 5px 5px 0;
+}
   
+#settings {
+    position: absolute;
+    right: -140px;
+    transition: 0.2s;
+    height: 17%;
+    width: 150px;
+    text-decoration: none;
+    font-size: 30px;
+    box-shadow: 0 0;
+    border-radius: 5px 0 0 5px;
+}
+  
+  
+#import:hover {
+    left: -10px;
+}
+  
+  
+#settings:hover {
+    right: -10px;
+}
+  
+#import {
+    top: 4%;
+}
+  
+#settings {
+    top: 4%;
+}
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }

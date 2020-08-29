@@ -13,6 +13,7 @@ $(function(){
   console.log("[DEBUG] Secpass started!");
 
   $("#searchBarNotePassword").on("input", function(){
+    //todo improve the search algorithm
     var search = $("#searchBarNotePassword").val().toLowerCase()
     chrome.storage.local.get(['secpassNotesData'], function(data){
       var notes = data.secpassNotesData
@@ -39,7 +40,6 @@ $(function(){
         })
       })
     })
-    //todo filter notes and passwords
 
   $("#mainScreen").ready(function(){
 
@@ -80,7 +80,7 @@ $(function(){
             var hash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
             console.log(hash)
             if(hash == hashed){
-              //TODO loadUserData 
+
               loadUserData();
               userData = {
                 "ik": pass,
@@ -121,6 +121,15 @@ $(function(){
     $("#addSecPasswordDialogClose").click(function(){
       $("#addSecPasswordDialog").css("display", "none")  
     });
+
+    $("#import").click(function(){
+      chrome.tabs.create({url: 'fileimport.html'});
+    })
+
+    $("#settings").click(function(){
+      //settings page
+    })
+
     $("#addSecPasswordSaveBtn").click(function(){
       var website = $("#addSecPasswordInputWebsite").val();
       var username = $("#addSecPasswordInputUsername").val();

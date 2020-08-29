@@ -88,15 +88,18 @@
                 <button id="addSecPassword" style="margin-right: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-key" aria-hidden="true"></i>
                 </button>
+
+                <button href="#" id="import"><i class="fas fa-file-import"></i></button>
+                <button href="#" id="settings"><i class="fas fa-cog"></i></button>
             </div>
 
             <!-- List of Notes/Passwords -->
             <div id="mainScreenSomethingFound" style="display: flex; justify-content: space-between; width: 100%;">
-                <div style="overflow-y: scroll; height:335px; width: 50%;">
+                <div style="overflow-y: scroll; height:335px; width: 300px;">
                     <ul id="notes-list" class="list">
                     </ul>
                 </div>
-                <div style="overflow-y: scroll; height:335px; width: 50%;">
+                <div style="overflow-y: scroll; height:335px; width: 300px;">
                     <ul id="passes-list" class="list">
                     </ul>
                 </div>
@@ -114,6 +117,7 @@
     </body>
 
     <script src="js/jquery.js"></script>
+    <script src="js/infinity.min.js"></script>
     <script src="js/crypto-js.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/all.js"></script>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bulma.min.css">
+        <link rel="stylesheet" href="css/fileimport.css" />
+	</head>
+	
+	<body>
+
+        <!-- Nothing found page -->
+        <div id="loginImportFormScreen" style="display: grid; padding: 4%; place-items: center; margin-top: 15%;">
+            <h1 class="title">Import Logins</h1>
+            <form id="loginsImportForm" enctype="multipart/form-data" method="post">
+                <input type="file" name="loginFile" id="loginFileImport" accept=".csv" (change)="uploadLoginCSV($event)"><br>
+                
+                <progress id="loginImportProgressBar" value="0" max="100" class="progress is-large"></progress>
+                <span id="loginImportSpan" style="margin-top: 4%;"></span>
+            </form>          
+        </div>
+
+    </body>
+    <script src="js/jquery.js"></script>
+    <script src="js/crypto-js.min.js"></script>
+    <script src="js/all.js"></script>
+    <script src="js/fileimport.js"></script>
+</html>
