@@ -12,35 +12,6 @@ $(function(){
 
   console.log("[DEBUG] Secpass started!");
 
-  $("#searchBarNotePassword").on("input", function(){
-    //todo improve the search algorithm
-    var search = $("#searchBarNotePassword").val().toLowerCase()
-    chrome.storage.local.get(['secpassNotesData'], function(data){
-      var notes = data.secpassNotesData
-      chrome.storage.local.get(['secpassPassesData'], function(data){
-        var passes = data.secpassPassesData
-        chrome.storage.local.get(['secpassd'], function(data){
-          var ik = data.secpassd.ik
-          if(ik!=undefined){
-              filteredNotes = notes.filter(function(value, i, arr){ 
-                var title = escapeOutput(CryptoJS.AES.decrypt(arr[i].title, ik).toString(CryptoJS.enc.Utf8)).toLowerCase();
-                var note = escapeOutput(CryptoJS.AES.decrypt(arr[i].note, ik).toString(CryptoJS.enc.Utf8)).toLowerCase();
-
-                return title.includes(search) || note.includes(search)
-              })
-              generateNotesReadables(ik, filteredNotes)
-              filteredPassword = passes.filter(function(value, i, arr){
-                  var website = escapeOutput(CryptoJS.AES.decrypt(arr[i].website, ik).toString(CryptoJS.enc.Utf8)).toLowerCase();
-                  var username = escapeOutput(CryptoJS.AES.decrypt(arr[i].username, ik).toString(CryptoJS.enc.Utf8)).toLowerCase();
-                return website.includes(search) || username.includes(search)
-              })
-              generatePassesReadables(ik, filteredPassword)
-            }
-          })
-        })
-      })
-    })
-
   $("#mainScreen").ready(function(){
 
     chrome.storage.local.get(['secpassd'], function(data){
