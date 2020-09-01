@@ -116,11 +116,15 @@ function noteItemGive(title, note) {
 		'<div class="notesItem" style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">' +
 		' <li>' +
 		' <div class="notes-header" style="display: flex; justify-content: space-between;">' +
-		'   <span style=" overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; font-size: 24px; margin-right: 2%; display: inline-block; word-break: break-word;" class="notetitle">' + title + '</span>' +
-		'   <div class="smallboxes edit-note"><i class="fas fa-pen"></i></div>' +
+		'   <input readonly style="margin-top: 2%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-weight: bold; font-size: 24px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;  border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" class="title" value="'+title+'">' +
+		'   <div class="smallboxes edit-note" style="margin-top: 1.3%;"><i class="fas fa-pen"></i></div>' +
+		'	<div class="smallboxes save-note" style="margin-top: 1.8%; display: none;"><i class="fas fa-check"></i></div>' +
 		' </div>' +
 		'   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>' +
-		'   <p class="note" style="padding: 0px; margin: 0px; margin-right: 2%; display: inline-block; word-break: break-word;">' + note + '</p>' +
+		' 	<div style="display: flex; justify-content: space-between;">' +
+		'   	<textarea readonly class="note" style="margin-top: 2%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-size: 12px; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;">' + note + '</textarea>' +
+		'		<div class="smallboxes delete-note" style="margin-top: 1%;"><i class="fas fa-trash"></i></div>' +
+		'	</div>' +
 		' </li>' +
 		'</div>'
 	return noteItem
@@ -162,7 +166,7 @@ function generatePassesReadables(ik, passes) {
 		console.log("username: "+username)
 		var password = passes[i].getPassword()
 		$("#passes-list").append(passItemGive(website, username, password))
-		console.log("index: "+passes[i].getIndex())
+		console.log("pass index: "+passes[i].getIndex())
 	}
 	console.log("=============================")
 
@@ -237,6 +241,7 @@ function generatePassesReadables(ik, passes) {
 				}
 				var userDat = encPasses
 				userDat[ind] = encryptedPayload
+				encPasses = userDat
 				decryptedPasswords[ind] = new LoginItem(webE, usrE, passE, ind)
 
 				if (searching) {
@@ -311,32 +316,40 @@ function generatePassesReadables(ik, passes) {
 function generateNotesReadables(ik, notes) {
 	$("#notes-list").empty()
 
+	console.log("=============================")
 	for (i = 0; i < notes.length; i++) {
 		var title = notes[i].getTitle()
 		var note = notes[i].getNote()
+		console.log("title: "+title)
 		$("#notes-list").append(noteItemGive(title, note))
+		console.log("note index: "+notes[i].getIndex())
 	}
+	console.log("=============================")
 
-	$(".notes-header").find(".edit-note").each(function (index, div) {
-		var $div = $(div)
-		$div.click(function () {
-			$("#addSecNoteDialog").css("display", "block")
-			$("#addSecNoteDialogTitle").text("Edit Note")
+	$(".notesItem").find('li').each(function (index, item) {
+		
+		$(item).find(".edit-note").click(function () {
 			var title = notes[index].getTitle()
 			var note = notes[index].getNote()
-			$("#addSecNoteInputTitle").val(title)
-			$("#addSecNoteInputTextArea").val(note)
-			$("#addSecNoteSubmitError").val("")
-			$("#addSecNoteSaveBtn").hide()
-			$("#saveEditNoteBtn").show()
-			$("#deleteEditNoteBtn").show()
 
-			$("#saveEditNoteBtn").one("click", function (e) {
-				e.stopPropagation()
+			$(item).find(".edit-note").css("display", "none")
+			$(item).find(".save-note").css("display", "block")
+
+			var titleInput = $(item).find(".title");
+			titleInput.attr('readonly', false)
+			titleInput.focus()
+			titleInput.val(title)
+			titleInput.css("background-color","#e8f0fe");
+			var noteInput = $(item).find(".note")
+			noteInput.attr('readonly', false)
+			noteInput.val(note)
+			noteInput.css("background-color","#e8f0fe");
+
+			$(item).find(".save-note").click(function() {
 				var key = ik
 				var ind = notes[index].getIndex()
-				var title = $("#addSecNoteInputTitle").val()
-				var note = $("#addSecNoteInputTextArea").val()
+				var titleE = $(item).find(".title").val()
+				var noteE = $(item).find(".note").val()
 				var encryptedTitle = CryptoJS.AES.encrypt(title, key).toString()
 				var encryptedNote = CryptoJS.AES.encrypt(note, key).toString()
 				encryptedPayload = {
@@ -345,48 +358,74 @@ function generateNotesReadables(ik, notes) {
 				}
 				var userDat = encNotes
 				userDat[ind] = encryptedPayload
-				notes[index] = encryptedPayload
-				decryptedNotes[ind] = new NoteItem(title, note, ind)
-				var search = $("#searchBarNotePasswordInput").val()
-				filteredNotes = decryptedNotes.filter(function (value, i, arr) {
-					var title = arr[i].getTitle().toLowerCase();
-					var note = arr[i].getNote().toLowerCase();
+				encNotes = userDat
+				decryptedNotes[ind] = new NoteItem(titleE, noteE, ind)
 
-					return title.includes(search) || note.includes(search)
+				if(searching){
+					console.log("Searching")
+					var search = $("#searchBarNotePasswordInput").val()
+					filteredNotes = decryptedNotes.filter(function (value, i, arr) {
+						var title = arr[i].getTitle().toLowerCase();
+						var note = arr[i].getNote().toLowerCase();
+	
+						return title.includes(search) || note.includes(search)
+					})
+					chrome.storage.local.set({
+						'secpassNotesData': userDat
+					}, function () {
+						console.log("[DEBUG] Editing note in notes!: " + new Date())
+						console.log(userDat)
+						generateNotesReadables(key, filteredNotes)
+					})
+				} else {
+					console.log("not searching")
+					chrome.storage.local.set({
+						'secpassNotesData': userDat
+					}, function () {
+						console.log("[DEBUG] Editing note in notes!: " + new Date())
+						console.log("editing pass id: "+ind)
+						generateNotesReadables(key, decryptedNotes)
+					})
+				}
+			})
+
+		})
+
+		$(item).find(".delete-note").dblclick(function() {
+			var ind = notes[index].getIndex()
+			console.log("ind: "+ind)
+			console.log("index: "+index)
+			encNotes = encNotes.filter(function (value, i, arr){
+				return i!=ind
+			})
+			var userDat = encNotes
+			decryptedNotes = decryptedNotes.filter(function (value, i, arr){
+				return i !=ind
+			})
+			for(i=ind;i<decryptedNotes.length;i++){
+				decryptedNotes[i].setIndex(i)
+			}
+			if(searching){
+				filteredNotes = notes.filter(function (value, i, arr){
+					return i!=index
 				})
 				chrome.storage.local.set({
 					'secpassNotesData': userDat
-				}, function () {
-					console.log("[DEBUG] Editing note in notes!: " + new Date())
+				}, function(){
+					console.log("[DEBUG] Deleting note from notes!: " + new Date())
 					console.log(userDat)
-					$("#addSecNoteInputTitle").val("")
-					$("#addSecNoteInputTextArea").val("")
-					$("#addSecNoteDialog").css("display", "none")
-
-					generateNotesReadables(key, filteredNotes)
+					generateNotesReadables(ik, filteredNotes)
 				})
-			})
-
-			$("#deleteEditNoteBtn").one("click", function (e) {
-				e.stopPropagation()
-				var arr = encNotes.filter(function (value, i, arr) {
-					return i != ind;
-				});
+			} else {
 				chrome.storage.local.set({
-					'secpassNotesData': arr
-				}, function () {
-					console.log("[DEBUG] Deleting note in notes!: " + new Date())
-					console.log(arr)
-					$("#addSecNoteInputTitle").val("")
-					$("#addSecNoteInputTextArea").val("")
-					$("#addSecNoteDialog").css("display", "none")
-
-					generateNotesReadables(ik, decryptedNotes.filter(function (value, i, arr) {
-						return i != ind;
-					}))
+					'secpassNotesData': userDat
+				}, function(){
+					console.log("[DEBUG] Deleting note from notes!: " + new Date())
+					console.log(userDat)
+					generateNotesReadables(ik, decryptedNotes)
 				})
-			})
-			console.log(index)
+			}
+
 		})
 
 	})
@@ -406,8 +445,8 @@ function loadUserData() {
 						$("#mainScreenNothingFound").show()
 						$("#searchBarNotePassword").hide()
 					} else {
-						console.log("notes: " + encNotes.length)
-						console.log("passes: " + encPasses.length)
+						console.log("User Notes: " + encNotes.length)
+						console.log("User Passes: " + encPasses.length)
 						for (i = 0; i < encPasses.length; i++) {
 							var website = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].website, ik).toString(CryptoJS.enc.Utf8))
 							var username = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].username, ik).toString(CryptoJS.enc.Utf8))
@@ -442,7 +481,11 @@ function saveSecNote(title, note) {
 		}
 		var notesArray = encNotes;
 		notesArray.unshift(encryptedPayload)
-		decryptedNotes.unshift(new NoteItem(title, note, decryptedNotes.length))
+		encNotes = notesArray
+		decryptedNotes.unshift(new NoteItem(title, note, 0))
+		for(i=1;i<decryptedNotes.length;i++){
+			decryptedNotes[i].setIndex(i)
+		}
 		chrome.storage.local.set({
 			'secpassNotesData': notesArray
 		}, function () {
@@ -451,7 +494,6 @@ function saveSecNote(title, note) {
 			$("#addSecNoteInputTitle").val("")
 			$("#addSecNoteInputTextArea").val("")
 			$("#addSecNoteDialog").css("display", "none")
-
 			if ($("#mainScreenNothingFound").is(":visible")) {
 				$("#mainScreenNothingFound").hide()
 				$("#mainScreenSomethingFound").show()
