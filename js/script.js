@@ -1,9 +1,3 @@
-var addSecNoteButton = document.getElementById('addSecNote')
-var addSecNoteDialog = document.getElementById('addSecNoteDialog')
-
-var addSecPasswordButton = document.getElementById('addSecPassword')
-var addSecPasswordDialog = document.getElementById('addSecPasswordDialog')
-
 var decryptedPasswords = []
 var decryptedNotes = []
 
@@ -104,6 +98,7 @@ $("#searchBarNotePasswordSubmit").click(function () {
 	var search = $("#searchBarNotePasswordInput").val().toLowerCase()
 
 	if (ik != undefined) {
+		progressOn()
 		notesScrollPos = $("#passesListDiv").scrollTop
 		passesScrollPos = $("#notesListDiv").scrollTop
 		filteredNotes = decryptedNotes.filter(function (value, i, arr) {
@@ -118,6 +113,7 @@ $("#searchBarNotePasswordSubmit").click(function () {
 			return website.includes(search) || username.includes(search)
 		})
 		generatePassesReadables(ik, filteredPassword)
+		progressOff()
 	}
 })
 
@@ -144,21 +140,6 @@ $("#searchBarNotePassword").ready(function(){
 	});
 })
 
-function byteArrayToString(byteArray) {
-	var str = "", i;
-	for (i = 0; i < byteArray.length; ++i) {
-		str += escape(String.fromCharCode(byteArray[i]))
-	}
-	return str
-}
-
-function escapeOutput(toOutput) {
-	return toOutput.replace(/\&/g, '&')
-		.replace(/\</g, '&lt;')
-		.replace(/\>/g, '&gt;')
-		.replace(/\"/g, '&quot;')
-		.replace(/\'/g, '&#x27')
-}
 
 function noteItemGive(title, note) {
 	var noteItem = '' +
@@ -205,286 +186,8 @@ function passItemGive(website, username, password) {
 	return passItem
 }
 
-function generatePassesReadables(ik, passes) {
-	$("#passes-list").empty()
-
-	console.log("=============================")
-	for (i = 0; i < passes.length; i++) {
-		var website = passes[i].getWebsite()
-		var username = passes[i].getUsername()
-		console.log("username: "+username)
-		var password = passes[i].getPassword()
-		$("#passes-list").append(passItemGive(website, username, password))
-		console.log("pass index: "+passes[i].getIndex())
-	}
-	console.log("=============================")
-
-	$(".passesItem").find('li').each(function (index, item) {
-		var $input = $(item).find('.password-box');
-		$input.parent().find('.password-visibility').click(function () {
-			if ($input.attr('type') == "password") {
-				$input.attr('type', "text")
-			} else {
-				$input.attr('type', "password")
-			}
-		});
-
-		var clipper = $(item).find('.clipper');
-		$(clipper).click(function () {
-			if (!$(clipper).parent().find('.password-visibility').is(":checked")) {
-				$(clipper).parent().find('.password-box').attr('type', "text")
-				$(clipper).parent().find('.password-box').select()
-				document.execCommand("copy")
-				$(clipper).parent().find('.password-box').attr('type', "password")
-				$(clipper).find('.tooltiptext').text("copied!")
-				setTimeout(function () {
-					$(clipper).find('.tooltiptext').text("copy")
-				}, 600)
-			} else {
-				$(clipper).parent().find('.password-box').select()
-				document.execCommand("copy")
-				$(clipper).find('.tooltiptext').text("copied!")
-				setTimeout(function () {
-					$(clipper).find('.tooltiptext').text("copy")
-				}, 600)
-			}
-		})
-
-		$(item).find(".edit-password").click(function () {
-			var website = passes[index].getWebsite()
-			var username = passes[index].getUsername()
-			var password = passes[index].getPassword()
-			
-			$(item).find(".edit-password").css("display", "none")
-			$(item).find(".save-password").css("display", "block")
-
-			var websiteInput = $(item).find(".website");
-			websiteInput.attr('readonly', false)
-			websiteInput.focus()
-			websiteInput.val(website)
-			websiteInput.css("background-color","#e8f0fe");
-			var usernameInput = $(item).find(".username")
-			usernameInput.attr('readonly', false)
-			usernameInput.val(username)
-			usernameInput.css("background-color","#e8f0fe");
-			var passwordInput = $(item).find(".password-box")
-			passwordInput.attr('readonly', false)
-			passwordInput.val(password)
-			passwordInput.css("background-color","#e8f0fe");
-
-			$(item).find(".save-password").click(function () {
-				var key = ik;
-				var ind = passes[index].getIndex()
-				console.log("ind: "+ind)
-				var webE = $(item).find(".website").val()
-				var usrE = $(item).find(".username").val()
-				var passE = $(item).find(".password-box").val()
-				console.log(webE)
-				var encryptedWebsite = CryptoJS.AES.encrypt(webE, key).toString();
-				var encryptedUsername = CryptoJS.AES.encrypt(usrE, key).toString();
-				var encryptedPassword = CryptoJS.AES.encrypt(passE, key).toString();
-				encryptedPayload = {
-					"website": encryptedWebsite,
-					"username": encryptedUsername,
-					"password": encryptedPassword
-				}
-				var userDat = encPasses
-				userDat[ind] = encryptedPayload
-				encPasses = userDat
-				decryptedPasswords[ind] = new LoginItem(webE, usrE, passE, ind)
-
-				if (searching) {
-					console.log("searching")
-					var search = $("#searchBarNotePasswordInput").val()
-					filteredPassword = decryptedPasswords.filter(function (value, i, arr) {
-						var website = arr[i].getWebsite().toLowerCase();
-						var username = arr[i].getUsername().toLowerCase();
-						return website.includes(search) || username.includes(search)
-					})
-					chrome.storage.local.set({
-						'secpassPassesData': userDat
-					}, function () {
-						//
-						console.log("[DEBUG] Editing password in passwords!")
-						console.log(userDat)
-						generatePassesReadables(key, filteredPassword)
-					})
-				} else {
-					console.log("not searching")
-					chrome.storage.local.set({
-						'secpassPassesData': userDat
-					}, function () {
-						//
-						console.log("[DEBUG] Editing password in passwords!")
-						console.log("editing pass id: "+ind)
-						arr = [...decryptedPasswords]
-						generatePassesReadables(key, arr.slice(passesRangeTop, passesRangeBottom))
-					})
-				}
-			})
-		})
-
-		$(item).find(".delete-password").dblclick(function() {
-			var ind = passes[index].getIndex()
-			console.log("ind: "+ind)
-			console.log("index: "+index)
-			encPasses = encPasses.filter(function (value, i, arr) {
-				return i != ind;
-			});
-			var userDat = encPasses
-			decryptedPasswords = decryptedPasswords.filter(function (value, i, arr) {
-				return i != ind;
-			})
-			for(i=ind;i<decryptedPasswords.length;i++){
-				decryptedPasswords[i].setIndex(i)
-			}
-			if (searching) {
-				filteredPassword = passes.filter(function(value, i, arr){
-					return i!=index
-				})
-				chrome.storage.local.set({
-					'secpassPassesData': userDat
-				}, function () {
-					console.log("[DEBUG] Deleting password from passwords!: " + new Date())
-					console.log(userDat)
-					generatePassesReadables(ik, filteredPassword)
-				})
-			} else {
-				chrome.storage.local.set({
-					'secpassPassesData': userDat
-				}, function () {
-					console.log("[DEBUG] Deleting password from passwords!: " + new Date())
-					console.log(userDat)
-					arr = [...decryptedPasswords]
-					generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
-				})
-			}
-		})
-
-	})
-}
-
-function generateNotesReadables(ik, notes) {
-	$("#notes-list").empty()
-
-	console.log("=============================")
-	for (i = 0; i < notes.length; i++) {
-		var title = notes[i].getTitle()
-		var note = notes[i].getNote()
-		console.log("title: "+title)
-		$("#notes-list").append(noteItemGive(title, note))
-		console.log("note index: "+notes[i].getIndex())
-	}
-	console.log("=============================")
-
-	$(".notesItem").find('li').each(function (index, item) {
-		
-		$(item).find(".edit-note").click(function () {
-			var title = notes[index].getTitle()
-			var note = notes[index].getNote()
-
-			$(item).find(".edit-note").css("display", "none")
-			$(item).find(".save-note").css("display", "block")
-
-			var titleInput = $(item).find(".title");
-			titleInput.attr('readonly', false)
-			titleInput.focus()
-			titleInput.val(title)
-			titleInput.css("background-color","#e8f0fe");
-			var noteInput = $(item).find(".note")
-			noteInput.attr('readonly', false)
-			noteInput.val(note)
-			noteInput.css("background-color","#e8f0fe");
-
-			$(item).find(".save-note").click(function() {
-				var key = ik
-				var ind = notes[index].getIndex()
-				var titleE = $(item).find(".title").val()
-				var noteE = $(item).find(".note").val()
-				var encryptedTitle = CryptoJS.AES.encrypt(titleE, key).toString()
-				var encryptedNote = CryptoJS.AES.encrypt(noteE, key).toString()
-				encryptedPayload = {
-					"title": encryptedTitle,
-					"note": encryptedNote
-				}
-				var userDat = encNotes
-				userDat[ind] = encryptedPayload
-				encNotes = userDat
-				decryptedNotes[ind] = new NoteItem(titleE, noteE, ind)
-
-				if(searching){
-					console.log("Searching")
-					var search = $("#searchBarNotePasswordInput").val()
-					filteredNotes = decryptedNotes.filter(function (value, i, arr) {
-						var title = arr[i].getTitle().toLowerCase();
-						var note = arr[i].getNote().toLowerCase();
-	
-						return title.includes(search) || note.includes(search)
-					})
-					chrome.storage.local.set({
-						'secpassNotesData': userDat
-					}, function () {
-						console.log("[DEBUG] Editing note in notes!: " + new Date())
-						console.log(userDat)
-						generateNotesReadables(key, filteredNotes)
-					})
-				} else {
-					console.log("not searching")
-					chrome.storage.local.set({
-						'secpassNotesData': userDat
-					}, function () {
-						console.log("[DEBUG] Editing note in notes!: " + new Date())
-						console.log("editing pass id: "+ind)
-						generateNotesReadables(key, decryptedNotes)
-					})
-				}
-			})
-
-		})
-
-		$(item).find(".delete-note").dblclick(function() {
-			var ind = notes[index].getIndex()
-			console.log("ind: "+ind)
-			console.log("index: "+index)
-			encNotes = encNotes.filter(function (value, i, arr){
-				return i!=ind
-			})
-			var userDat = encNotes
-			decryptedNotes = decryptedNotes.filter(function (value, i, arr){
-				return i !=ind
-			})
-			for(i=ind;i<decryptedNotes.length;i++){
-				decryptedNotes[i].setIndex(i)
-			}
-			if(searching){
-				filteredNotes = notes.filter(function (value, i, arr){
-					return i!=index
-				})
-				chrome.storage.local.set({
-					'secpassNotesData': userDat
-				}, function(){
-					console.log("[DEBUG] Deleting note from notes!: " + new Date())
-					console.log(userDat)
-					generateNotesReadables(ik, filteredNotes)
-				})
-			} else {
-				chrome.storage.local.set({
-					'secpassNotesData': userDat
-				}, function(){
-					console.log("[DEBUG] Deleting note from notes!: " + new Date())
-					console.log(userDat)
-					arr = [...decryptedNotes]
-					generateNotesReadables(ik, arr.slice(notesRangeTop, notesRangeBottom))
-				})
-			}
-
-		})
-
-	})
-
-}
-
 function loadUserData() {
+	progressOn()
 	console.log("[DEBUG] Starting to load user data!")
 	chrome.storage.local.get(['secpassNotesData'], function (data) {
 		encNotes = data.secpassNotesData
@@ -496,7 +199,9 @@ function loadUserData() {
 					if (encNotes.length == 0 && encPasses.length == 0) {
 						$("#mainScreenNothingFound").show()
 						$("#searchBarNotePassword").hide()
+						progressOff()
 					} else {
+						$("#mainScreenSomethingFound").show()
 						console.log("User Notes: " + encNotes.length)
 						console.log("User Passes: " + encPasses.length)
 						for (i = 0; i < encPasses.length; i++) {
@@ -516,93 +221,12 @@ function loadUserData() {
 						}
 						arrNotes = [...decryptedNotes]
 						generateNotesReadables(ik, arrNotes.slice(notesRangeTop, notesRangeBottom))
-						$("#mainScreenSomethingFound").show()
+						progressOff()
 					}
+				} else {
+					progressOff()
 				}
 			});
 		})
 	})
-}
-
-function saveSecNote(title, note) {
-	if (title != "" && note != "") {
-		var key = ik
-		var encryptedTitle = CryptoJS.AES.encrypt(title, key).toString();
-		var encryptedNote = CryptoJS.AES.encrypt(note, key).toString();
-		encryptedPayload = {
-			"title": encryptedTitle,
-			"note": encryptedNote
-		}
-		var notesArray = encNotes;
-		notesArray.unshift(encryptedPayload)
-		encNotes = notesArray
-		decryptedNotes.unshift(new NoteItem(title, note, 0))
-		for(i=1;i<decryptedNotes.length;i++){
-			decryptedNotes[i].setIndex(i)
-		}
-		chrome.storage.local.set({
-			'secpassNotesData': notesArray
-		}, function () {
-			console.log("[DEBUG] Adding note to notes!")
-			console.log(notesArray)
-			$("#addSecNoteInputTitle").val("")
-			$("#addSecNoteInputTextArea").val("")
-			$("#addSecNoteDialog").css("display", "none")
-			if ($("#mainScreenNothingFound").is(":visible")) {
-				$("#mainScreenNothingFound").hide()
-				$("#mainScreenSomethingFound").show()
-				$("#searchBarNotePassword").show()
-			}
-			arr = [...decryptedNotes]
-			generateNotesReadables(key, arr.slice(notesRangeTop, notesRangeBottom))
-		});
-	} else {
-		$("#addSecNoteSubmitError").text("Empty fields!")
-	}
-}
-
-function saveSecPassword(website, username, password) {
-	if (!regexWebsite(website)) {
-		$("#addSecPasswordSubmitError").text("Invalid Website URL!")
-	} else if (website != "" && username != "" && password != "") {
-		var key = ik;
-		var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
-		var encryptedUsername = CryptoJS.AES.encrypt(username, key).toString();
-		var encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
-		encryptedPayload = {
-			"website": encryptedWebsite,
-			"username": encryptedUsername,
-			"password": encryptedPassword
-		}
-		var passesArray = encPasses;
-		passesArray.unshift(encryptedPayload)
-		encPasses = passesArray
-		decryptedPasswords.unshift(new LoginItem(website, username, password, 0))
-		for(i=1;i<decryptedPasswords.length;i++){
-			decryptedPasswords[i].setIndex(i)
-		}
-		chrome.storage.local.set({
-			'secpassPassesData': passesArray
-		}, function () {
-			console.log("[DEBUG] Adding password to passwords!")
-			console.log(passesArray)
-			$("#addSecPasswordInputWebsite").val("")
-			$("#addSecPasswordInputUsername").val("")
-			$("#addSecPasswordInputPassword").val("")
-			$("#addSecPasswordDialog").css("display", "none")
-			if ($("#mainScreenNothingFound").is(":visible")) {
-				$("#mainScreenNothingFound").hide()
-				$("#mainScreenSomethingFound").show()
-				$("#searchBarNotePassword").show()
-			}
-			arr = [...decryptedPasswords]
-			generatePassesReadables(key, arr.slice(passesRangeTop, passesRangeBottom))
-		});
-	} else {
-		$("#addSecPasswordSubmitError").text("Empty fields!")
-	}
-}
-
-function regexWebsite(inp) {
-	return /^(https?):\/\/[^\s$.?#].[^\s]*$/i.test(inp);
 }

@@ -9,13 +9,18 @@
 	
 	<body>
 
+        <div id="chooseServiceScreen" style="display: grid; padding: 4%; place-items: center; margin-top: 12%;">
+            <h1 class="title">Import From?</h1>
+            <button id="serviceGoogleBtn" style="margin-top: 3%; width: 40%;"> Google </button>
+            <button id="serviceFirefoxBtn" style="margin-top: 3%; width: 40%;"> Firefox </button>
+            <button id="serviceBitwardenBtn" style="margin-top: 3%; width: 40%;"> Bitwarden </button>
+        </div>
+
         <!-- Nothing found page -->
         <div id="loginImportFormScreen" style="display: grid; padding: 4%; place-items: center; margin-top: 15%;">
             <h1 class="title">Import Logins</h1>
             <form id="loginsImportForm" enctype="multipart/form-data" method="post">
                 <input type="file" name="loginFile" id="loginFileImport" accept=".csv" (change)="uploadLoginCSV($event)"><br>
-                
-                <progress id="loginImportProgressBar" value="0" max="100" class="progress is-large"></progress>
                 <span id="loginImportSpan" style="margin-top: 4%;"></span>
             </form>          
         </div>

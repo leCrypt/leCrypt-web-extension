@@ -43,6 +43,10 @@
             <button id="submitLoginBtn" style="font-size: medium; margin-top: 2%; box-shadow: 5px 5px #a883f8;"><b>Submit</b></button>
         </section>
 
+        <dialog id="progressBarDialog" style="width: 87%; height: 87%; z-index: 26;">
+            <progress class="progress is-large is-info" max="100" style="margin-top: 35%; padding-right: 10%; padding-left: 10%;">60%</progress>
+        </dialog>
+
         <!-- Main User Screen -->
         <section id="mainScreen" style="display: grid; place-items: center; padding-top: 4%;">
 
@@ -57,8 +61,6 @@
                     <textarea id="addSecNoteInputTextArea" style="width: 98%; height: 180px; resize: none;" placeholder="note"></textarea>
                 </form>
                 <button id="addSecNoteSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 8px;"><i class="fa fa-check" aria-hidden="true"></i></button>
-                <button id="saveEditNoteBtn" style="width: 25%; height: 14%; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 8px;"><b>Save</b></button>
-                <button id="deleteEditNoteBtn"><b>Delete</b></button>
                 <span id="addSecNoteSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
             </dialog>
 
@@ -74,8 +76,6 @@
                     <input id="addSecPasswordInputPassword" type="password" style="width: 98%; margin-top: 6%;" placeholder="password"/>
                 </form>
                 <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
-                <button id="saveEditPasswordBtn" style="width: 25%; height: 14%; padding: 0px; box-shadow: 0px 0px; border-width: 3px; margin-top: 5%;"><b>Save</b></button>
-                <button id="deleteEditPasswordBtn"><b>Delete</b></button>
                 <span id="addSecPasswordSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
             </dialog>
             
@@ -120,10 +120,15 @@
     </body>
 
     <script src="js/jquery.js"></script>
+    <script src="js/all.js"></script>
+    <script src="js/crypto-js.min.js"></script>
+
     <script src="js/loginItem.js"></script>
     <script src="js/noteItem.js"></script>
-    <script src="js/crypto-js.min.js"></script>
+    <script src="js/helperfuncs.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/all.js"></script>
+    <script src="js/readables.js"></script>
+    <script src="js/saveItems.js"></script>
+
     <script src="popup.js"></script>
 </html>
