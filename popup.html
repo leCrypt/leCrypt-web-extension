@@ -85,8 +85,8 @@
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-sticky-note" aria-hidden="true"></i></button>
                 </button>
                 <div id="searchBarNotePassword" style="width: 40%; height: 10%; margin-top: 1%;">
-                    <input id="searchBarNotePasswordInput"  style="width: 80%;" placeholder="search"/>
-                    <button id="searchBarNotePasswordSubmit" style="padding: 2%; margin: 0px; height: 100%;"><i class="fas fa-search"></i></button>
+                    <input id="searchBarNotePasswordInput"  style="width: 80%; box-shadow: 10px 5px #a883f8;" placeholder="search"/>
+                    <button id="searchBarNotePasswordSubmit" style="margin: 0px; padding: 2%; height: 100%;"><i class="fas fa-search"></i></button>
                 </div> 
                 <button id="addSecPassword" style="margin-right: 5%;">
                     <i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-key" aria-hidden="true"></i>
@@ -98,11 +98,11 @@
 
             <!-- List of Notes/Passwords -->
             <div id="mainScreenSomethingFound" style="display: flex; justify-content: space-between; width: 100%;">
-                <div style="overflow-y: scroll; height:335px; width: 300px;">
+                <div id="notesListDiv" style="overflow-y: scroll; height:335px; width: 300px;">
                     <ul id="notes-list" class="list">
                     </ul>
                 </div>
-                <div style="overflow-y: scroll; height:335px; width: 300px;">
+                <div id="passesListDiv" style="overflow-y: scroll; height:335px; width: 300px;">
                     <ul id="passes-list" class="list">
                     </ul>
                 </div>
