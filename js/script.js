@@ -317,7 +317,8 @@ function generatePassesReadables(ik, passes) {
 						//
 						console.log("[DEBUG] Editing password in passwords!")
 						console.log("editing pass id: "+ind)
-						generatePassesReadables(key, decryptedPasswords)
+						arr = [...decryptedPasswords]
+						generatePassesReadables(key, arr.slice(passesRangeTop, passesRangeBottom))
 					})
 				}
 			})
@@ -354,7 +355,8 @@ function generatePassesReadables(ik, passes) {
 				}, function () {
 					console.log("[DEBUG] Deleting password from passwords!: " + new Date())
 					console.log(userDat)
-					generatePassesReadables(ik, decryptedPasswords)
+					arr = [...decryptedPasswords]
+					generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
 				})
 			}
 		})
@@ -399,8 +401,8 @@ function generateNotesReadables(ik, notes) {
 				var ind = notes[index].getIndex()
 				var titleE = $(item).find(".title").val()
 				var noteE = $(item).find(".note").val()
-				var encryptedTitle = CryptoJS.AES.encrypt(title, key).toString()
-				var encryptedNote = CryptoJS.AES.encrypt(note, key).toString()
+				var encryptedTitle = CryptoJS.AES.encrypt(titleE, key).toString()
+				var encryptedNote = CryptoJS.AES.encrypt(noteE, key).toString()
 				encryptedPayload = {
 					"title": encryptedTitle,
 					"note": encryptedNote
@@ -471,7 +473,8 @@ function generateNotesReadables(ik, notes) {
 				}, function(){
 					console.log("[DEBUG] Deleting note from notes!: " + new Date())
 					console.log(userDat)
-					generateNotesReadables(ik, decryptedNotes)
+					arr = [...decryptedNotes]
+					generateNotesReadables(ik, arr.slice(notesRangeTop, notesRangeBottom))
 				})
 			}
 
