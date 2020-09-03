@@ -1,23 +1,18 @@
-var fr = new FileReader();
-var passesArray = []
+var fileReader = new FileReader();
+var loginsArray = []
 var service = ""
 
 $(function(){
     $("#loginImportFormScreen").hide()
-    console.log("[DEBUG] File Import Started!")
-    chrome.storage.local.get(['secpassd'], function(data){
-        console.log("[DEBUG] local.get() for userdata.")
-        console.log(data);
-    });
+    console.log("[DEBUG] Login Import Started!")
     $("#loginFileImport").change(function(e){
-        var file = e.target.files[0]; 
-        console.log(file)
-        fr.onload = receivedText;
-        fr.readAsText(file);
+        var file = e.target.files[0];
+        fileReader.onload = receivedText;
+        fileReader.readAsText(file);
     })
     chrome.storage.local.get(['secpassPassesData'], function(data){
         if(data.secpassPassesData!=undefined)
-            passesArray = data.secpassPassesData
+            loginsArray = data.secpassPassesData
     })
 })
 
@@ -57,7 +52,7 @@ function importScreenShow(){
 }
 
 function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordIndex){
-    var lines = fr.result.split('\n')
+    var lines = fileReader.result.split('\n')
     if(lines[0].includes(verifier)){
         $("#loginImportSpan").text("[+] Loading logins...")
         chrome.storage.local.get(['secpassd'], function(data){
@@ -74,10 +69,10 @@ function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordInde
                         "username": encryptedUsername,
                         "password": encryptedPassword
                     }
-                    passesArray.push(encryptedPayload)  
+                    loginsArray.push(encryptedPayload)  
                 } else if(i==lines.length) {
                     $("#loginImportSpan").text("[+] Done loading logins!")
-                    chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
+                    chrome.storage.local.set({'secpassPassesData': loginsArray}, function(){
                         console.log("[DEBUG] Imported passwords to passwords!")
                         chrome.storage.local.get(['secpassPassesData'], function(data){
                             console.log(data.secpassPassesData)
