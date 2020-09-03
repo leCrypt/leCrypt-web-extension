@@ -1,14 +1,13 @@
 var fr = new FileReader();
 var passesArray = []
-$("#loginImportFormScreen").hide()
 var service = ""
 
 $(function(){
+    $("#loginImportFormScreen").hide()
     console.log("[DEBUG] File Import Started!")
     chrome.storage.local.get(['secpassd'], function(data){
         console.log("[DEBUG] local.get() for userdata.")
         console.log(data);
-
     });
     $("#loginFileImport").change(function(e){
         var file = e.target.files[0]; 
@@ -22,199 +21,73 @@ $(function(){
     })
 })
 
-function receivedText() {
-    if(service == "google"){
-        googleImports()
-    } else if(service == "firefox"){
-        firefoxImports()
-    } else if(service == "bitwarden"){
-        bitwardenImports()
-    }
-}
-
 $("#serviceGoogleBtn").click(function(){
     service = "google"
-    $("#chooseServiceScreen").hide()
-    $("#loginImportFormScreen").show()
+    importScreenShow()
 })
 
 $("#serviceFirefoxBtn").click(function(){
     service = "firefox"
-    $("#chooseServiceScreen").hide()
-    $("#loginImportFormScreen").show()
+    importScreenShow()
 })
 
 $("#serviceBitwardenBtn").click(function(){
     service = "bitwarden"
-    $("#chooseServiceScreen").hide()
-    $("#loginImportFormScreen").show()
+    importScreenShow()
 })
 
 function base_url(loc){
-    // get the segments
     pathArray = loc.split( '/' );
     return pathArray[0]+"//"+pathArray[2]+ '/';
 }
 
-function googleImports(){
-    var lines = fr.result.split('\n')
-    if(lines[0].includes("name,url,username,password")){
-        $("#loginImportSpan").text("[+] Loading logins...")
-        count = 0;
-        loadedFields = []
-
-        chrome.storage.local.get(['secpassd'], function(data){
-            var key = data.secpassd.ik;
-        for(i=1;i<=lines.length;i++){
-            if(i<lines.length && lines[i].includes(",")){
-                fields = lines[i].split(",")
-                loadedFields.push(fields)
-                count+=1
-            } else {
-                $("#loginImportSpan").append("</br> [+] Loading Done! </br>")
-                $("#loginImportSpan").append("[+] Found "+count+" logins! </br>")
-                    for(j=0;j<=loadedFields.length;j++){
-                        if(j<loadedFields.length){
-                            var website = base_url(loadedFields[j][1])
-                            var username = loadedFields[j][2]
-                            var password = loadedFields[j][3]
-                                var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
-                                var encryptedUsername = CryptoJS.AES.encrypt(username, key).toString();
-                                var encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
-                                encryptedPayload = {
-                                    "website": encryptedWebsite,
-                                    "username": encryptedUsername,
-                                    "password": encryptedPassword
-                                }
-                                passesArray.push(encryptedPayload)
-
-                        } else {
-                            chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
-                                console.log("[DEBUG] Imported passwords to passwords!")
-                                chrome.storage.local.get(['secpassPassesData'], function(data){
-                                    console.log(data.secpassPassesData)
-                                })
-                            });
-                            $("#loginImportSpan").text("[+] Done Importing logins!")
-                        }
-                    }
-                
-            }
-        }
-        })
-        
-    } else {
-        alert("Invalid File Selected!")
-        $("#loginImportSpan").text("Please select a google passwords exported file (csv)")
+function receivedText() {
+    if(service == "google"){
+        importLogins("name,url,username,password", ",", 1, 2, 3)
+    } else if(service == "firefox"){
+        importLogins("\"url\",\"username\",\"password\"", ",", 0, 1, 2)
+    } else if(service == "bitwarden"){
+        importLogins("type,name,notes,fields,login_uri,login_username,login_password", ",", 6, 7, 8)
     }
 }
 
-function firefoxImports(){
-    var lines = fr.result.split('\n')
-
-    if(lines[0].includes("\"url\",\"username\",\"password\"")){
-        $("#loginImportSpan").text("[+] Loading logins...")
-        count = 0;
-        loadedFields = []
-
-        chrome.storage.local.get(['secpassd'], function(data){
-            var key = data.secpassd.ik;
-        for(i=1;i<=lines.length;i++){
-            if(i<lines.length && lines[i].includes("\",\"")){
-                fields = lines[i].split(",")
-                loadedFields.push(fields)
-                count+=1
-            } else {
-                console.log(loadedFields)
-                $("#loginImportSpan").append("</br> [+] Loading Done! </br>")
-                $("#loginImportSpan").append("[+] Found "+count+" logins! </br>")
-                    for(j=0;j<=loadedFields.length;j++){
-                        if(j<loadedFields.length){
-                            console.log(loadedFields[j])
-                            var website = base_url(loadedFields[j][0].split("\"").join(""))
-                            console.log(loadedFields[j][0].split("\"").join(""))
-                            var username = loadedFields[j][1].split("\"").join("")
-                            var password = loadedFields[j][2].split("\"").join("")
-                                var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
-                                var encryptedUsername = CryptoJS.AES.encrypt(username, key).toString();
-                                var encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
-                                encryptedPayload = {
-                                    "website": encryptedWebsite,
-                                    "username": encryptedUsername,
-                                    "password": encryptedPassword
-                                }
-                                passesArray.push(encryptedPayload)
-                        } else {
-                            chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
-                                console.log("[DEBUG] Imported passwords to passwords!")
-                                chrome.storage.local.get(['secpassPassesData'], function(data){
-                                    console.log(data.secpassPassesData)
-                                })
-                            });
-                            $("#loginImportSpan").text("[+] Done Importing logins!")
-                        }
-                    }
-                
-            }
-        }
-        })
-    } else {
-        alert("Invalid File Selected!")
-        $("#loginImportSpan").text("Please select a firefox passwords exported file (csv)")
-    }
+function importScreenShow(){
+    $("#chooseServiceScreen").hide()
+    $("#loginImportFormScreen").show()
 }
 
-function bitwardenImports(){
+function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordIndex){
     var lines = fr.result.split('\n')
-
-    if(lines[0].includes("type,name,notes,fields,login_uri,login_username,login_password")){
+    if(lines[0].includes(verifier)){
         $("#loginImportSpan").text("[+] Loading logins...")
-        count = 0;
-        loadedFields = []
-
         chrome.storage.local.get(['secpassd'], function(data){
             var key = data.secpassd.ik;
-        for(i=1;i<=lines.length;i++){
-            if(i<lines.length && lines[i].includes("login,")){
-                fields = lines[i].split(",")
-                loadedFields.push(fields)
-                count+=1
-            } else {
-                console.log(loadedFields)
-                $("#loginImportSpan").append("</br> [+] Loading Done! </br>")
-                $("#loginImportSpan").append("[+] Found "+count+" logins! </br>")
-                    for(j=0;j<=loadedFields.length;j++){
-                        if(j<loadedFields.length){
-                            console.log(loadedFields[j])
-                            var website = base_url(loadedFields[j][6])
-                            console.log(loadedFields[j][6])
-                            var username = loadedFields[j][7]
-                            var password = loadedFields[j][8]
-                                var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
-                                var encryptedUsername = CryptoJS.AES.encrypt(username, key).toString();
-                                var encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
-                                encryptedPayload = {
-                                    "website": encryptedWebsite,
-                                    "username": encryptedUsername,
-                                    "password": encryptedPassword
-                                }
-                                passesArray.push(encryptedPayload)
-                        } else {
-                            chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
-                                console.log("[DEBUG] Imported passwords to passwords!")
-                                chrome.storage.local.get(['secpassPassesData'], function(data){
-                                    console.log(data.secpassPassesData)
-                                })
-                            });
-                            $("#loginImportSpan").text("[+] Done Importing logins!")
-                        }
+            for(i=1;i<=lines.length;i++){
+                if(i<lines.length && lines[i].includes(delimiter)){
+                    fields = lines[i].split(delimiter)
+                    flag = (service == "google" || service == "bitwarden")
+                    var encryptedWebsite = CryptoJS.AES.encrypt(base_url(flag ? fields[urlIndex] : fields[urlIndex].slice(1, fields[urlIndex].length-1)), key).toString();
+                    var encryptedUsername = CryptoJS.AES.encrypt(flag ? fields[usernameIndex] : fields[usernameIndex].slice(1, fields[usernameIndex].length-1), key).toString();
+                    var encryptedPassword = CryptoJS.AES.encrypt(flag ? fields[passwordIndex] : fields[passwordIndex].slice(1, fields[passwordIndex].length-1), key).toString();
+                    encryptedPayload = {
+                        "website": encryptedWebsite,
+                        "username": encryptedUsername,
+                        "password": encryptedPassword
                     }
-                
+                    passesArray.push(encryptedPayload)  
+                } else if(i==lines.length) {
+                    $("#loginImportSpan").text("[+] Done loading logins!")
+                    chrome.storage.local.set({'secpassPassesData': passesArray}, function(){
+                        console.log("[DEBUG] Imported passwords to passwords!")
+                        chrome.storage.local.get(['secpassPassesData'], function(data){
+                            console.log(data.secpassPassesData)
+                        })
+                    });
+                }
             }
-        }
         })
     } else {
         alert("Invalid File Selected!")
-        $("#loginImportSpan").text("Please select a bitwarden passwords exported file (csv)")
+        $("#loginImportSpan").text("Please select a "+service+" passwords exported file (csv)!")
     }
 }
