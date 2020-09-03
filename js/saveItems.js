@@ -2,34 +2,26 @@ function saveSecNote(title, note) {
 	if (title != "" && note != "") {
 		progressOn()
 		var key = ik
-		var encryptedTitle = CryptoJS.AES.encrypt(title, key).toString();
-		var encryptedNote = CryptoJS.AES.encrypt(note, key).toString();
 		encryptedPayload = {
-			"title": encryptedTitle,
-			"note": encryptedNote
+			"title": CryptoJS.AES.encrypt(title, key).toString(),
+			"note": CryptoJS.AES.encrypt(note, key).toString()
 		}
-		var notesArray = encNotes;
-		notesArray.unshift(encryptedPayload)
-		encNotes = notesArray
+		encNotes.unshift(encryptedPayload)
 		decryptedNotes.unshift(new NoteItem(title, note, 0))
 		for(i=1;i<decryptedNotes.length;i++){
 			decryptedNotes[i].setIndex(i)
 		}
 		chrome.storage.local.set({
-			'secpassNotesData': notesArray
+			'secpassNotesData': encNotes
 		}, function () {
-			console.log("[DEBUG] Adding note to notes!")
-			console.log(notesArray)
-			$("#addSecNoteInputTitle").val("")
-			$("#addSecNoteInputTextArea").val("")
+			console.log("[DEBUG] Adding a note!")
 			$("#addSecNoteDialog").css("display", "none")
 			if ($("#mainScreenNothingFound").is(":visible")) {
 				$("#mainScreenNothingFound").hide()
 				$("#mainScreenSomethingFound").show()
 				$("#searchBarNotePassword").show()
 			}
-			arr = [...decryptedNotes]
-			generateNotesReadables(key, arr.slice(notesRangeTop, notesRangeBottom))
+			generateNotesReadables(key, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 			progressOff()
 		});
 	} else {
@@ -43,37 +35,27 @@ function saveSecPassword(website, username, password) {
 	} else if (website != "" && username != "" && password != "") {
 		progressOn()
 		var key = ik;
-		var encryptedWebsite = CryptoJS.AES.encrypt(website, key).toString();
-		var encryptedUsername = CryptoJS.AES.encrypt(username, key).toString();
-		var encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
 		encryptedPayload = {
-			"website": encryptedWebsite,
-			"username": encryptedUsername,
-			"password": encryptedPassword
+			"website": CryptoJS.AES.encrypt(website, key).toString(),
+			"username": CryptoJS.AES.encrypt(username, key).toString(),
+			"password": CryptoJS.AES.encrypt(password, key).toString()
 		}
-		var passesArray = encPasses;
-		passesArray.unshift(encryptedPayload)
-		encPasses = passesArray
+		encPasses.unshift(encryptedPayload)
 		decryptedPasswords.unshift(new LoginItem(website, username, password, 0))
 		for(i=1;i<decryptedPasswords.length;i++){
 			decryptedPasswords[i].setIndex(i)
 		}
 		chrome.storage.local.set({
-			'secpassPassesData': passesArray
+			'secpassPassesData': encPasses
 		}, function () {
-			console.log("[DEBUG] Adding password to passwords!")
-			console.log(passesArray)
-			$("#addSecPasswordInputWebsite").val("")
-			$("#addSecPasswordInputUsername").val("")
-			$("#addSecPasswordInputPassword").val("")
+			console.log("[DEBUG] Adding a password!")
 			$("#addSecPasswordDialog").css("display", "none")
 			if ($("#mainScreenNothingFound").is(":visible")) {
 				$("#mainScreenNothingFound").hide()
 				$("#mainScreenSomethingFound").show()
 				$("#searchBarNotePassword").show()
 			}
-			arr = [...decryptedPasswords]
-			generatePassesReadables(key, arr.slice(passesRangeTop, passesRangeBottom))
+			generatePassesReadables(key, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 			progressOff()
 		});
 	} else {

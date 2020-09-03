@@ -1,16 +1,17 @@
 function generatePassesReadables(ik, passes) {
 	$("#passes-list").empty()
 
-	console.log("=============================")
+	console.log("")
+	console.log("[DEBUG] =============================")
 	for (i = 0; i < passes.length; i++) {
 		var website = passes[i].getWebsite()
 		var username = passes[i].getUsername()
-		console.log("username: "+username)
 		var password = passes[i].getPassword()
 		$("#passes-list").append(passItemGive(website, username, password))
-		console.log("pass index: "+passes[i].getIndex())
+		console.log("[DEBUG] Login index: "+passes[i].getIndex()+"; Username: "+username+" ;  Website: "+website)
 	}
-	console.log("=============================")
+	console.log("[DEBUG] =============================")
+	console.log("")
 
 	$(".passesItem").find('li').each(function (index, item) {
 		var $input = $(item).find('.password-box');
@@ -56,10 +57,12 @@ function generatePassesReadables(ik, passes) {
 			websiteInput.focus()
 			websiteInput.val(website)
 			websiteInput.css("background-color","#e8f0fe");
+
 			var usernameInput = $(item).find(".username")
 			usernameInput.attr('readonly', false)
 			usernameInput.val(username)
 			usernameInput.css("background-color","#e8f0fe");
+
 			var passwordInput = $(item).find(".password-box")
 			passwordInput.attr('readonly', false)
 			passwordInput.val(password)
@@ -69,22 +72,18 @@ function generatePassesReadables(ik, passes) {
 				progressOn()
 				var key = ik;
 				var ind = passes[index].getIndex()
-				console.log("ind: "+ind)
+				console.log("[DEBUG] .save-password -> index in decrypted list: "+ind)
+				console.log("[DEBUG] .save-password -> index in passed list: : "+index)
 				var webE = $(item).find(".website").val()
 				var usrE = $(item).find(".username").val()
 				var passE = $(item).find(".password-box").val()
-				console.log(webE)
-				var encryptedWebsite = CryptoJS.AES.encrypt(webE, key).toString();
-				var encryptedUsername = CryptoJS.AES.encrypt(usrE, key).toString();
-				var encryptedPassword = CryptoJS.AES.encrypt(passE, key).toString();
 				encryptedPayload = {
-					"website": encryptedWebsite,
-					"username": encryptedUsername,
-					"password": encryptedPassword
+					"website": CryptoJS.AES.encrypt(webE, key).toString(),
+					"username": CryptoJS.AES.encrypt(usrE, key).toString(),
+					"password": CryptoJS.AES.encrypt(passE, key).toString()
 				}
-				var userDat = encPasses
-				userDat[ind] = encryptedPayload
-				encPasses = userDat
+
+				encPasses[ind] = encryptedPayload
 				decryptedPasswords[ind] = new LoginItem(webE, usrE, passE, ind)
 
 				if (searching) {
@@ -96,24 +95,19 @@ function generatePassesReadables(ik, passes) {
 						return website.includes(search) || username.includes(search)
 					})
 					chrome.storage.local.set({
-						'secpassPassesData': userDat
+						'secpassPassesData': encPasses
 					}, function () {
-						//
-						console.log("[DEBUG] Editing password in passwords!")
-						console.log(userDat)
+						console.log("[DEBUG] Editing the above login!")
 						generatePassesReadables(key, filteredPassword)
 						progressOff()
 					})
 				} else {
 					console.log("not searching")
 					chrome.storage.local.set({
-						'secpassPassesData': userDat
+						'secpassPassesData': encPasses
 					}, function () {
-						//
-						console.log("[DEBUG] Editing password in passwords!")
-						console.log("editing pass id: "+ind)
-						arr = [...decryptedPasswords]
-						generatePassesReadables(key, arr.slice(passesRangeTop, passesRangeBottom))
+						console.log("[DEBUG] Editing the above login!")
+						generatePassesReadables(key, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 						progressOff()
 					})
 				}
@@ -123,12 +117,11 @@ function generatePassesReadables(ik, passes) {
 		$(item).find(".delete-password").dblclick(function() {
 			progressOn()
 			var ind = passes[index].getIndex()
-			console.log("ind: "+ind)
-			console.log("index: "+index)
+			console.log("[DEBUG] .delete-password -> index in decrypted list: "+ind)
+			console.log("[DEBUG] .delete-password -> index in passed list: : "+index)
 			encPasses = encPasses.filter(function (value, i, arr) {
 				return i != ind;
 			});
-			var userDat = encPasses
 			decryptedPasswords = decryptedPasswords.filter(function (value, i, arr) {
 				return i != ind;
 			})
@@ -140,21 +133,18 @@ function generatePassesReadables(ik, passes) {
 					return i!=index
 				})
 				chrome.storage.local.set({
-					'secpassPassesData': userDat
+					'secpassPassesData': encPasses
 				}, function () {
-					console.log("[DEBUG] Deleting password from passwords!: " + new Date())
-					console.log(userDat)
+					console.log("[DEBUG] Deleting the above password!")
 					generatePassesReadables(ik, filteredPassword)
 					progressOff()
 				})
 			} else {
 				chrome.storage.local.set({
-					'secpassPassesData': userDat
+					'secpassPassesData': encPasses
 				}, function () {
-					console.log("[DEBUG] Deleting password from passwords!: " + new Date())
-					console.log(userDat)
-					arr = [...decryptedPasswords]
-					generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
+					console.log("[DEBUG] Deleting the above password!")
+					generatePassesReadables(ik, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 					progressOff()
 				})
 			}
@@ -166,15 +156,16 @@ function generatePassesReadables(ik, passes) {
 function generateNotesReadables(ik, notes) {
 	$("#notes-list").empty()
 
-	console.log("=============================")
+	console.log("")
+	console.log("[DEBUG] =============================")
 	for (i = 0; i < notes.length; i++) {
 		var title = notes[i].getTitle()
 		var note = notes[i].getNote()
-		console.log("title: "+title)
 		$("#notes-list").append(noteItemGive(title, note))
-		console.log("note index: "+notes[i].getIndex())
+		console.log("[DEBUG] Note index: "+notes[i].getIndex()+"; Title: "+title)
 	}
-	console.log("=============================")
+	console.log("[DEBUG] =============================")
+	console.log("")
 
 	$(".notesItem").find('li').each(function (index, item) {
 		
@@ -190,6 +181,7 @@ function generateNotesReadables(ik, notes) {
 			titleInput.focus()
 			titleInput.val(title)
 			titleInput.css("background-color","#e8f0fe");
+
 			var noteInput = $(item).find(".note")
 			noteInput.attr('readonly', false)
 			noteInput.val(note)
@@ -199,17 +191,15 @@ function generateNotesReadables(ik, notes) {
 				progressOn()
 				var key = ik
 				var ind = notes[index].getIndex()
+				console.log("[DEBUG] .save-note -> index in decrypted list: "+ind)
+				console.log("[DEBUG] .save-note -> index in passed list: : "+index)
 				var titleE = $(item).find(".title").val()
 				var noteE = $(item).find(".note").val()
-				var encryptedTitle = CryptoJS.AES.encrypt(titleE, key).toString()
-				var encryptedNote = CryptoJS.AES.encrypt(noteE, key).toString()
 				encryptedPayload = {
-					"title": encryptedTitle,
-					"note": encryptedNote
+					"title": CryptoJS.AES.encrypt(titleE, key).toString(),
+					"note": CryptoJS.AES.encrypt(noteE, key).toString()
 				}
-				var userDat = encNotes
-				userDat[ind] = encryptedPayload
-				encNotes = userDat
+				encNotes[ind] = encryptedPayload
 				decryptedNotes[ind] = new NoteItem(titleE, noteE, ind)
 
 				if(searching){
@@ -218,25 +208,22 @@ function generateNotesReadables(ik, notes) {
 					filteredNotes = decryptedNotes.filter(function (value, i, arr) {
 						var title = arr[i].getTitle().toLowerCase();
 						var note = arr[i].getNote().toLowerCase();
-	
 						return title.includes(search) || note.includes(search)
 					})
 					chrome.storage.local.set({
-						'secpassNotesData': userDat
+						'secpassNotesData': encNotes
 					}, function () {
-						console.log("[DEBUG] Editing note in notes!: " + new Date())
-						console.log(userDat)
+						console.log("[DEBUG] Editing the above login!")
 						generateNotesReadables(key, filteredNotes)
 						progressOff()
 					})
 				} else {
 					console.log("not searching")
 					chrome.storage.local.set({
-						'secpassNotesData': userDat
+						'secpassNotesData': encNotes
 					}, function () {
-						console.log("[DEBUG] Editing note in notes!: " + new Date())
-						console.log("editing pass id: "+ind)
-						generateNotesReadables(key, decryptedNotes)
+						console.log("[DEBUG] Editing the above login!")
+						generateNotesReadables(key, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 						progressOff()
 					})
 				}
@@ -252,7 +239,6 @@ function generateNotesReadables(ik, notes) {
 			encNotes = encNotes.filter(function (value, i, arr){
 				return i!=ind
 			})
-			var userDat = encNotes
 			decryptedNotes = decryptedNotes.filter(function (value, i, arr){
 				return i !=ind
 			})
@@ -264,21 +250,18 @@ function generateNotesReadables(ik, notes) {
 					return i!=index
 				})
 				chrome.storage.local.set({
-					'secpassNotesData': userDat
+					'secpassNotesData': encNotes
 				}, function(){
 					console.log("[DEBUG] Deleting note from notes!: " + new Date())
-					console.log(userDat)
 					generateNotesReadables(ik, filteredNotes)
 					progressOff()
 				})
 			} else {
 				chrome.storage.local.set({
-					'secpassNotesData': userDat
+					'secpassNotesData': encNotes
 				}, function(){
 					console.log("[DEBUG] Deleting note from notes!: " + new Date())
-					console.log(userDat)
-					arr = [...decryptedNotes]
-					generateNotesReadables(ik, arr.slice(notesRangeTop, notesRangeBottom))
+					generateNotesReadables(ik, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 					progressOff()
 				})
 			}

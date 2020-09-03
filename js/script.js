@@ -22,9 +22,6 @@ $("#addSecNote").click(function () {
 	$("#addSecNoteInputTitle").val("")
 	$("#addSecNoteInputTextArea").val("")
 	$("#addSecNoteSubmitError").val("")
-	$("#addSecNoteSaveBtn").show()
-	$("#saveEditNoteBtn").hide()
-	$("#deleteEditNoteBtn").hide()
 });
 
 $("#addSecPassword").click(function () {
@@ -34,20 +31,20 @@ $("#addSecPassword").click(function () {
 	$("#addSecPasswordInputUsername").val("")
 	$("#addSecPasswordInputPassword").val("")
 	$("#addSecPasswordSubmitError").val("")
-	$("#addSecPasswordSaveBtn").show()
-	$("#saveEditPasswordBtn").hide()
-	$("#deleteEditPasswordBtn").hide()
 });
 
 $('#passesListDiv').scroll(function () {
-	//console.log("scrollTop: "+this.scrollTop)
 	if (this.scrollTop >= 800) {
 		if (passesRangeBottom + 4 <= encPasses.length+5 && !searching) {
 			passesRangeBottom +=4
 			passesRangeTop +=4
-			console.log("passesRangeBottom: "+passesRangeBottom)
-			console.log("passesRangeTop: "+passesRangeTop)
-			console.log("passes list bottom reached!")
+			console.log("")
+			console.log("[DEBUG] ==============================")
+			console.log("[DEBUG] Loading elements in range: ↓")
+			console.log("[DEBUG] passesRangeBottom: "+passesRangeBottom)
+			console.log("[DEBUG] passesRangeTop: "+passesRangeTop)
+			console.log("[DEBUG] ==============================")
+			console.log("")
 			arr = [...decryptedPasswords]
 			generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
 			$(this).scrollTop(200)
@@ -56,9 +53,13 @@ $('#passesListDiv').scroll(function () {
 		if (passesRangeTop != 0) {
 			passesRangeBottom -=4
 			passesRangeTop -=4
-			console.log("passesRangeBottom: "+passesRangeBottom)
-			console.log("passesRangeTop: "+passesRangeTop)
-			console.log("passes list top reached!")
+			console.log("")
+			console.log("[DEBUG] ==============================")
+			console.log("[DEBUG] Loading logins in range: ↓")
+			console.log("[DEBUG] passesRangeBottom: "+passesRangeBottom)
+			console.log("[DEBUG] passesRangeTop: "+passesRangeTop)
+			console.log("[DEBUG] ==============================")
+			console.log("")
 			arr = [...decryptedPasswords]
 			generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
 			$(this).scrollTop(780)	
@@ -67,14 +68,17 @@ $('#passesListDiv').scroll(function () {
 })
 
 $('#notesListDiv').scroll(function () {
-	//console.log("scrollTop: "+this.scrollTop)
 	if (this.scrollTop >= 800) {
 		if (notesRangeBottom + 4 <= encNotes.length+5 && !searching) {
 			notesRangeBottom +=4
 			notesRangeTop +=4
+			console.log("")
+			console.log("[DEBUG] ==============================")
+			console.log("[DEBUG] Loading notes in range: ↓")
 			console.log("notesRangeBottom: "+notesRangeBottom)
 			console.log("notesRangeTop: "+notesRangeTop)
-			console.log("notes list bottom reached!")
+			console.log("[DEBUG] ==============================")
+			console.log("")
 			arr = [...decryptedNotes]
 			generateNotesReadables(ik, arr.slice(notesRangeTop, notesRangeBottom))
 			$(this).scrollTop(200)
@@ -83,9 +87,13 @@ $('#notesListDiv').scroll(function () {
 		if (notesRangeTop != 0) {
 			notesRangeBottom -=4
 			notesRangeTop -=4
+			console.log("")
+			console.log("[DEBUG] ==============================")
+			console.log("[DEBUG] Loading notes in range: ↓")
 			console.log("notesRangeBottom: "+notesRangeBottom)
 			console.log("notesRangeTop: "+notesRangeTop)
-			console.log("notes list bottom reached!")
+			console.log("[DEBUG] ==============================")
+			console.log("")
 			arr = [...decryptedNotes]
 			generateNotesReadables(ik, arr.slice(notesRangeTop, notesRangeBottom))
 			$(this).scrollTop(780)
@@ -95,20 +103,19 @@ $('#notesListDiv').scroll(function () {
 
 $("#searchBarNotePasswordSubmit").click(function () {
 	var search = $("#searchBarNotePasswordInput").val().toLowerCase()
-
 	if (ik != undefined) {
 		progressOn()
 		notesScrollPos = $("#passesListDiv").scrollTop
-		passesScrollPos = $("#notesListDiv").scrollTop
 		filteredNotes = decryptedNotes.filter(function (value, i, arr) {
-			var title = arr[i].getTitle().toLowerCase();
-			var note = arr[i].getNote().toLowerCase();
+			var title = value.getTitle().toLowerCase();
+			var note = value.getNote().toLowerCase();
 			return title.includes(search) || note.includes(search)
 		})
 		generateNotesReadables(ik, filteredNotes)
+		passesScrollPos = $("#notesListDiv").scrollTop
 		filteredPassword = decryptedPasswords.filter(function (value, i, arr) {
-			var website = arr[i].getWebsite().toLowerCase();
-			var username = arr[i].getUsername().toLowerCase();
+			var website = value.getWebsite().toLowerCase();
+			var username = value.getUsername().toLowerCase();
 			return website.includes(search) || username.includes(search)
 		})
 		generatePassesReadables(ik, filteredPassword)
@@ -121,23 +128,19 @@ $("#searchBarNotePasswordInput").on("input", function () {
 	if (search != "") {
 		searching = true
 	} else {
-		arr = [...decryptedPasswords]
-		arrNotes = [...decryptedNotes]
-		generateNotesReadables(ik, arrNotes.slice(notesRangeTop, notesRangeBottom))
-		generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
+		generateNotesReadables(ik, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
+		generatePassesReadables(ik, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 		$("#notesListDiv").scrollTop(notesScrollPos)
 		$("#passesListDiv").scrollTop(passesScrollPos)
 		searching = false;
 	}
 })
 
-$("#searchBarNotePassword").ready(function(){
-	$('#searchBarNotePasswordInput').keydown(function (e) {
-		if (e.keyCode == 13) {
-			$('#searchBarNotePasswordSubmit').click();
-		}
-	});
-})
+$('#searchBarNotePasswordInput').keydown(function (e) {
+	if (e.keyCode == 13) {
+		$('#searchBarNotePasswordSubmit').click();
+	}
+});
 
 function loadUserData() {
 	progressOn()
@@ -150,13 +153,15 @@ function loadUserData() {
 				ik = data.secpassd.ik
 				if (ik != undefined) {
 					if (encNotes.length == 0 && encPasses.length == 0) {
+						console.log("[DEBUG] No saved data found!")
 						$("#mainScreenNothingFound").show()
 						$("#searchBarNotePassword").hide()
 						progressOff()
 					} else {
 						$("#mainScreenSomethingFound").show()
-						console.log("User Notes: " + encNotes.length)
-						console.log("User Passes: " + encPasses.length)
+						console.log("[DEBUG] User found with the following: ")
+						console.log("[DEBUG] User Notes: " + encNotes.length)
+						console.log("[DEBUG] User Passes: " + encPasses.length)
 						for (i = 0; i < encPasses.length; i++) {
 							var website = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].website, ik).toString(CryptoJS.enc.Utf8))
 							var username = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].username, ik).toString(CryptoJS.enc.Utf8))
@@ -164,20 +169,16 @@ function loadUserData() {
 							var passItem = new LoginItem(website, username, password, i)
 							decryptedPasswords.push(passItem)
 						}
-						arr = [...decryptedPasswords]
-						generatePassesReadables(ik, arr.slice(passesRangeTop, passesRangeBottom))
+						generatePassesReadables(ik, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 						for (i = 0; i < encNotes.length; i++) {
 							var title = escapeOutput(CryptoJS.AES.decrypt(encNotes[i].title, ik).toString(CryptoJS.enc.Utf8))
 							var note = escapeOutput(CryptoJS.AES.decrypt(encNotes[i].note, ik).toString(CryptoJS.enc.Utf8))
 							var noteItem = new NoteItem(title, note, i)
 							decryptedNotes.push(noteItem)
 						}
-						arrNotes = [...decryptedNotes]
-						generateNotesReadables(ik, arrNotes.slice(notesRangeTop, notesRangeBottom))
+						generateNotesReadables(ik, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 						progressOff()
 					}
-				} else {
-					progressOff()
 				}
 			});
 		})

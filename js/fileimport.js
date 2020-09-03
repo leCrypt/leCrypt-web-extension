@@ -19,16 +19,19 @@ $(function(){
 $("#serviceGoogleBtn").click(function(){
     service = "google"
     importScreenShow()
+    console.log("[DEBUG] Google selected as service!")
 })
 
 $("#serviceFirefoxBtn").click(function(){
     service = "firefox"
     importScreenShow()
+    console.log("[DEBUG] Firefox selected as service!")
 })
 
 $("#serviceBitwardenBtn").click(function(){
     service = "bitwarden"
     importScreenShow()
+    console.log("[DEBUG] Bitwarden selected as service!")
 })
 
 function base_url(loc){
@@ -54,6 +57,7 @@ function importScreenShow(){
 function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordIndex){
     var lines = fileReader.result.split('\n')
     if(lines[0].includes(verifier)){
+        console.log("[DEBUG] Import started, with service of choice: "+service)
         $("#loginImportSpan").text("[+] Loading logins...")
         chrome.storage.local.get(['secpassd'], function(data){
             var key = data.secpassd.ik;
@@ -73,7 +77,7 @@ function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordInde
                 } else if(i==lines.length) {
                     $("#loginImportSpan").text("[+] Done loading logins!")
                     chrome.storage.local.set({'secpassPassesData': loginsArray}, function(){
-                        console.log("[DEBUG] Imported passwords to passwords!")
+                        console.log("[DEBUG] Import of logins successfully finished!")
                         chrome.storage.local.get(['secpassPassesData'], function(data){
                             console.log(data.secpassPassesData)
                         })
