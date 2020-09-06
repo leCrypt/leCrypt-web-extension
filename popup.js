@@ -101,8 +101,16 @@ $(function () {
 				url: 'fileimport.html'
 			});
 		})
+		
+		$("#cloud").click(function(){
+			console.log("[DEBUG] Cloud connect yet to be implemented!")
+			// chrome.tabs.create({
+			// 	url: 'cloud.html'
+			// })
+		})
 
 		$("#settings").click(function () {
+			console.log("[DEBUG] Settings yet to be implemented!")
 			//settings page
 		})
 

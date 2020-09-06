@@ -146,6 +146,21 @@ textarea {
     box-shadow: 0 0;
     border-radius: 0 5px 5px 0;
 }
+
+#cloud {
+    position: absolute;
+    top: -65px;
+    left: 37%;
+    transition: 0.2s;
+    height: 17%;
+    width: 150px;
+    text-decoration: none;
+    font-size: 30px;
+    box-shadow: 0 0;
+    border-radius: 0px 0px 5px 5px;
+    border-color: #f70000;
+    background-color: #f73b3f;
+}
   
 #settings {
     position: absolute;
@@ -164,6 +179,10 @@ textarea {
     left: -10px;
 }
   
+#cloud:hover {
+    top: -10px;
+    color: white;
+}
   
 #settings:hover {
     right: -10px;

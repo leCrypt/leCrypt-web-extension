@@ -1,0 +1,23 @@
+button {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    font-size: x-large;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    background-color: black;
+    box-shadow: 5px 5px #a883f8;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    border-color: black;
+    background-color: white;
+    color: black;
+}

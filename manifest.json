@@ -9,20 +9,27 @@
 		"64": "icons/icon64.png"
 	},
 	
-	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
+	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>", "identity"],
 	
 	"background": {
 		"scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
 		"persistent": true
 	},
+
+	"oauth2": {
+		"client_id": "yourClientIDHere.apps.googleusercontent.com",
+		"scopes": ["https://www.googleapis.com/auth/drive.appdata", "https://www.googleapis.com/auth/drive.file"]
+	},
+
   	"content_scripts": [{
       	"matches": [
-        	"*://*/*"
+        	"<all_urls>"
       	],
       	"js": [
         	"js/autofill.js"
       	]
-    }],	
+	}],	
+	
 	"commands": {
     	"_execute_browser_action": {
     		"suggested_key": {
@@ -32,12 +39,14 @@
         		"linux": "Alt+Shift+X"
       		}
     	}
-  	},
+	},
+	  
 	"browser_action": {
 		"default_icon": "icons/icon32.png",
 		"default_title": "Secpass",
 		"default_popup": "popup.html"
 	},
+
 	"web_accessible_resources": [
     	"js/autofill.js"
   	]
