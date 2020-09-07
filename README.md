@@ -2,11 +2,14 @@
 leCrypt is a decentralised password manager which is cross-platform, free and secure. It connects to your choice of cloud storage service account to allow syncing of your logins and notes with multiple devices.
 
 ## Table of Contents
+- [Demo](#demo)
 - [Getting started](#getting-started)
 - [Known Issues](#known-issues)
 - [Privacy Policy](#privacy-policy)
 - [Contributors](#contributors)
 - [License](#license)
+
+## [Demo](https://streamable.com/e/xyxu58)
 
 ## Getting started
 - Wait until the extension is loaded.
