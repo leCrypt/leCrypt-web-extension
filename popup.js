@@ -47,7 +47,7 @@ $(function () {
 					var hashed = data.secpassverify.sample;
 					console.log(hashed);
 					if (data.secpassverify != undefined) {
-
+						
 						var hash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
 						console.log(hash)
 						if (hash == hashed) {
