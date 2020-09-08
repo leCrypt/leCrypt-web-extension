@@ -97,6 +97,7 @@ function generatePassesReadables(ik, passes) {
 					chrome.storage.local.set({
 						'secpassPassesData': encPasses
 					}, function () {
+						passLoginsToDataPoint(encPasses)
 						console.log("[DEBUG] Editing the above login!")
 						generatePassesReadables(key, filteredPassword)
 						progressOff()
@@ -106,6 +107,7 @@ function generatePassesReadables(ik, passes) {
 					chrome.storage.local.set({
 						'secpassPassesData': encPasses
 					}, function () {
+						passLoginsToDataPoint(encPasses)
 						console.log("[DEBUG] Editing the above login!")
 						generatePassesReadables(key, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 						progressOff()
@@ -135,6 +137,7 @@ function generatePassesReadables(ik, passes) {
 				chrome.storage.local.set({
 					'secpassPassesData': encPasses
 				}, function () {
+					passLoginsToDataPoint(encPasses)
 					console.log("[DEBUG] Deleting the above password!")
 					generatePassesReadables(ik, filteredPassword)
 					progressOff()
@@ -143,6 +146,7 @@ function generatePassesReadables(ik, passes) {
 				chrome.storage.local.set({
 					'secpassPassesData': encPasses
 				}, function () {
+					passLoginsToDataPoint(encPasses)
 					console.log("[DEBUG] Deleting the above password!")
 					generatePassesReadables(ik, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
 					progressOff()
@@ -213,6 +217,7 @@ function generateNotesReadables(ik, notes) {
 					chrome.storage.local.set({
 						'secpassNotesData': encNotes
 					}, function () {
+						passNotesToDataPoint(encNotes)
 						console.log("[DEBUG] Editing the above login!")
 						generateNotesReadables(key, filteredNotes)
 						progressOff()
@@ -222,6 +227,7 @@ function generateNotesReadables(ik, notes) {
 					chrome.storage.local.set({
 						'secpassNotesData': encNotes
 					}, function () {
+						passNotesToDataPoint(encNotes)
 						console.log("[DEBUG] Editing the above login!")
 						generateNotesReadables(key, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 						progressOff()
@@ -252,6 +258,7 @@ function generateNotesReadables(ik, notes) {
 				chrome.storage.local.set({
 					'secpassNotesData': encNotes
 				}, function(){
+					passNotesToDataPoint(encNotes)
 					console.log("[DEBUG] Deleting note from notes!: " + new Date())
 					generateNotesReadables(ik, filteredNotes)
 					progressOff()
@@ -260,6 +267,7 @@ function generateNotesReadables(ik, notes) {
 				chrome.storage.local.set({
 					'secpassNotesData': encNotes
 				}, function(){
+					passNotesToDataPoint(encNotes)
 					console.log("[DEBUG] Deleting note from notes!: " + new Date())
 					generateNotesReadables(ik, [...decryptedNotes].slice(notesRangeTop, notesRangeBottom))
 					progressOff()

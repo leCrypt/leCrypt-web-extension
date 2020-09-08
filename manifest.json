@@ -15,16 +15,11 @@
 		"128": "icons/icon128.png"
 	},
 	
-	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>", "identity"],
+	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
 	
 	"background": {
 		"scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
 		"persistent": true
-	},
-
-	"oauth2": {
-		"client_id": "yourClientIDHere.apps.googleusercontent.com",
-		"scopes": ["https://www.googleapis.com/auth/drive.appdata", "https://www.googleapis.com/auth/drive.file"]
 	},
 
   	"content_scripts": [{
@@ -39,17 +34,17 @@
 	"commands": {
     	"_execute_browser_action": {
     		"suggested_key": {
-        		"windows": "Alt+Shift+X",
-        		"mac": "Alt+Shift+X",
-        		"chromeos": "Alt+Shift+X",
-        		"linux": "Alt+Shift+X"
+        		"windows": "Alt+Shift+C",
+        		"mac": "Alt+Shift+C",
+        		"chromeos": "Alt+Shift+C",
+        		"linux": "Alt+Shift+C"
       		}
     	}
 	},
 	  
 	"browser_action": {
-		"default_icon": "icons/icon32.png",
-		"default_title": "Secpass",
+		"default_icon": "icons/icon64.png",
+		"default_title": "leCrypt",
 		"default_popup": "popup.html"
 	},
 

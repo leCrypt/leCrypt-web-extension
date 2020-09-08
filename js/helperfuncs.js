@@ -70,3 +70,49 @@ function passItemGive(website, username, password) {
 		'</div>'
 	return passItem
 }
+
+function passLoginsToDataPoint(data){
+	$.post( "http://localhost:8692/api/update/passes", JSON.stringify({ passes: data }) , function( data ) {
+		console.log("[DEBUG] passLoginsToDataPoint")
+		console.log(data)
+	});
+}
+
+function passNotesToDataPoint(data){
+	$.post( "http://localhost:8692/api/update/notes", JSON.stringify({ notes: data }) , function( data ) {
+		console.log("[DEBUG] passNotesToDataPoint")
+		console.log(data)
+	});
+}
+
+function getNotesFromDataPoint(ip){
+	$.get( "http://"+ip+":8692/api/read/notes", function( data ) {
+		var gotNotes = JSON.parse(JSON.parse(data)).notes
+		console.log(gotNotes)
+		chrome.storage.local.set({
+			'secpassNotesData': gotNotes
+		}, function () {
+			console.log("[DEBUG] Refresh notes done!")
+		})
+	});
+}
+
+
+function getLoginsFromDataPoint(ip){
+	$.get( "http://"+ip+":8692/api/read/passes", function( data ) {
+		var gotPasses = JSON.parse(JSON.parse(data)).passes
+		console.log(gotPasses)
+		chrome.storage.local.set({
+			'secpassPassesData': gotPasses
+		}, function () {
+			console.log("[DEBUG] Refresh passes done!")
+		})
+	});
+}
+
+function getQRDataFromNative(){
+	$.get('http://127.0.0.1:8692/api/qr_output', function(data){
+		var qrData = JSON.parse(data)
+		return qrData
+	})
+}

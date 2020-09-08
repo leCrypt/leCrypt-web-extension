@@ -77,6 +77,7 @@ function importLogins(verifier, delimiter, urlIndex, usernameIndex, passwordInde
                 } else if(i==lines.length) {
                     $("#loginImportSpan").text("[+] Done loading logins!")
                     chrome.storage.local.set({'secpassPassesData': loginsArray}, function(){
+                        passLoginsToDataPoint(loginsArray)
                         console.log("[DEBUG] Import of logins successfully finished!")
                         chrome.storage.local.get(['secpassPassesData'], function(data){
                             console.log(data.secpassPassesData)

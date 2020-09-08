@@ -147,10 +147,10 @@ textarea {
     border-radius: 0 5px 5px 0;
 }
 
-#cloud {
+#refresh {
     position: absolute;
     top: -65px;
-    left: 37%;
+    left: 15%;
     transition: 0.2s;
     height: 17%;
     width: 150px;
@@ -158,8 +158,23 @@ textarea {
     font-size: 30px;
     box-shadow: 0 0;
     border-radius: 0px 0px 5px 5px;
-    border-color: #f70000;
-    background-color: #f73b3f;
+    border-color: #339af0;
+    background-color: #339af0;
+}
+
+#info {
+    position: absolute;
+    top: -65px;
+    right: 15%;
+    transition: 0.2s;
+    height: 17%;
+    width: 150px;
+    text-decoration: none;
+    font-size: 30px;
+    box-shadow: 0 0;
+    border-radius: 0px 0px 5px 5px;
+    border-color: #339af0;
+    background-color: #339af0;
 }
   
 #settings {
@@ -179,7 +194,12 @@ textarea {
     left: -10px;
 }
   
-#cloud:hover {
+#refresh:hover {
+    top: -10px;
+    color: white;
+}
+
+#info:hover {
     top: -10px;
     color: white;
 }

@@ -102,16 +102,57 @@ $(function () {
 			});
 		})
 		
-		$("#cloud").click(function(){
-			console.log("[DEBUG] Cloud connect yet to be implemented!")
-			// chrome.tabs.create({
-			// 	url: 'cloud.html'
-			// })
+		$("#refresh").click(function(){
+			console.log("[DEBUG] Refresh started...")
+			$("#refreshDialog").css("display", "block")
+			$("#refreshDialogDialogClose").click(function(){
+				$("#refreshDialog").css("display", "none")
+				$("#refreshDialogInputIPAddr").val("")
+				$("#refreshDialogInputToken").val("")
+				$("#refreshDialogSubmitError").text("")
+			})
+
+			$("#refreshDialogSaveBtn").click(function(){
+				progressOn()
+				var ip = $("#refreshDialogInputIPAddr").val()
+				$.get('http://'+ip+':8692/api/getToken', function(data){
+					var qrData = JSON.parse(data)
+					var tk = $("#refreshDialogInputToken").val()
+					if(qrData.token == tk){
+						getLoginsFromDataPoint(ip)
+						getNotesFromDataPoint(ip)
+						$("#refreshDialogSubmitError").text("Done Refreshing ✔️")
+					} else {
+						$("#refreshDialogSubmitError").text("Token Expired/Incorrect!")
+						console.log("[DEBUG] Token Expired/Incorrect")
+					}
+					//todo handle fails
+				})
+			})
 		})
 
 		$("#settings").click(function () {
 			console.log("[DEBUG] Settings yet to be implemented!")
 			//settings page
+		})
+
+		$("#info").click(async function(){
+			$("#selfInfoDialog").css("display", "block")
+			$.get('http://127.0.0.1:8692/api/qr_output', function(data){
+				var qrData = JSON.parse(data)
+				$("#selfInfoDialogIPAdd").text(qrData.ip)
+				$("#selfInfoDialogToken").text(qrData.token)
+				var image = new Image();
+				image.src = 'data:image/png;base64,'+qrData.base64qr;
+				image.style.width = '200px'
+				$("#selfInfoQRCode").append(image)
+			})
+			$("#selfInfoDialogClose").click(function(){
+				$("#selfInfoDialog").css("display", "none")
+				$("#selfInfoQRCode").empty()
+				$("#selfInfoDialogIPAdd").text("")
+				$("#selfInfoDialogToken").text("")
+			})
 		})
 
 		$("#addSecPasswordSaveBtn").click(function () {

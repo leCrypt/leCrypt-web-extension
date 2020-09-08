@@ -162,6 +162,7 @@ function loadUserData() {
 						console.log("[DEBUG] User found with the following: ")
 						console.log("[DEBUG] User Notes: " + encNotes.length)
 						console.log("[DEBUG] User Passes: " + encPasses.length)
+						passLoginsToDataPoint(encPasses)
 						for (i = 0; i < encPasses.length; i++) {
 							var website = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].website, ik).toString(CryptoJS.enc.Utf8))
 							var username = escapeOutput(CryptoJS.AES.decrypt(encPasses[i].username, ik).toString(CryptoJS.enc.Utf8))
@@ -170,6 +171,7 @@ function loadUserData() {
 							decryptedPasswords.push(passItem)
 						}
 						generatePassesReadables(ik, [...decryptedPasswords].slice(passesRangeTop, passesRangeBottom))
+						passNotesToDataPoint(encNotes)
 						for (i = 0; i < encNotes.length; i++) {
 							var title = escapeOutput(CryptoJS.AES.decrypt(encNotes[i].title, ik).toString(CryptoJS.enc.Utf8))
 							var note = escapeOutput(CryptoJS.AES.decrypt(encNotes[i].note, ik).toString(CryptoJS.enc.Utf8))

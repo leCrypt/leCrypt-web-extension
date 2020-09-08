@@ -14,6 +14,7 @@ function saveSecNote(title, note) {
 		chrome.storage.local.set({
 			'secpassNotesData': encNotes
 		}, function () {
+			passNotesToDataPoint(encNotes)
 			console.log("[DEBUG] Adding a note!")
 			$("#addSecNoteDialog").css("display", "none")
 			if ($("#mainScreenNothingFound").is(":visible")) {
@@ -48,6 +49,7 @@ function saveSecPassword(website, username, password) {
 		chrome.storage.local.set({
 			'secpassPassesData': encPasses
 		}, function () {
+			passLoginsToDataPoint(encPasses)
 			console.log("[DEBUG] Adding a password!")
 			$("#addSecPasswordDialog").css("display", "none")
 			if ($("#mainScreenNothingFound").is(":visible")) {

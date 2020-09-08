@@ -78,6 +78,34 @@
                 <button id="addSecPasswordSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
                 <span id="addSecPasswordSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
             </dialog>
+
+            <!-- Refresh Dialog -->
+            <dialog id="refreshDialog" style="width: 87%; height: 70%; z-index: 16;">
+                <form method="dialog">
+                    <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
+                        <h1 id="refreshDialogTitle" class="title">Refresh Data</h1>
+                        <button id="refreshDialogDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <input id="refreshDialogInputIPAddr" style="width: 98%;" placeholder="XXX.XXX.XXX.XXX"/>
+                    <input id="refreshDialogInputToken" style="width: 98%; margin-top: 6%;" placeholder="token"/>
+                </form>
+                <button id="refreshDialogSaveBtn" style="width: 75px; height: 50px; padding: 0px; box-shadow: 0px 0px; border-width: 2px; margin-top: 25px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <span id="refreshDialogSubmitError" style="margin-top: 2%; margin-left: 2%;"></span>
+            </dialog>
+
+            <!-- Self Info Dialog -->
+            <dialog id="selfInfoDialog" style="width: 87%; height: 87%; z-index: 16;">
+                <div style="padding-bottom: 2%; display: flex; justify-content: space-between; width: 100%;">
+                    <h1 id="selfInfoDialogTitle" class="title">Self Info</h1>
+                    <button id="selfInfoDialogClose" style="padding: 0px; width: 35px; height: 35px; box-shadow: 0px 0px; border-width: 2px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                <div>
+                    <div style="display: flex;"><b style="margin-right: 2%; font-size: x-large;">IP Address: </b><b id="selfInfoDialogIPAdd" style="font-size: x-large;"></b></div>
+                    <div style="display: flex;"><b style="margin-right: 2%; font-size: x-large;">Token: </b><b id="selfInfoDialogToken"  style="font-size: x-large;"></b></div>
+                </div>
+                <div id="selfInfoQRCode" style="display: grid; padding: 1.5%; place-items: center;">
+                </div>
+            </dialog>
             
             <!-- Main Screen Header -->
             <div style="padding-bottom: 3%; display: flex; justify-content: space-between; width: 100%;">
@@ -93,7 +121,8 @@
                 </button>
 
                 <button href="#" id="import"><i class="fas fa-file-import"></i></button>
-                <button href="#" id="cloud"><i class="fas fa-cloud-upload-alt"></i></button>
+                <button href="#" id="refresh"><i class="fas fa-sync-alt"></i></button>
+                <button href="#" id="info"><i class="fas fa-info"></i></button>
                 <button href="#" id="settings"><i class="fas fa-cog"></i></button>
             </div>
 
