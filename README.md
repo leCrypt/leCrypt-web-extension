@@ -1,5 +1,5 @@
 # leCrypt
-leCrypt is a decentralised password manager which is cross-platform, free and secure. It connects to your choice of cloud storage service account to allow syncing of your logins and notes with multiple devices.
+leCrypt is a decentralised password manager which is cross-platform, free and secure. It uses your own LAN devices to sync.
 
 ## Table of Contents
 - [Demo](#demo)
@@ -14,15 +14,14 @@ leCrypt is a decentralised password manager which is cross-platform, free and se
 ## Getting started
 - Wait until the extension is loaded.
 - (Optional) Click on the `Extensions` button in the extensions toolbar and then pin the leCrypt to the extensions toolbar the page.
-- Press Alt-Shift-X
+- Press Alt-Shift-C
 - Click on the `Register` button and setup a password for encryption, the only password that you have to remember for all your other logins.
 - Click on the submit button and start adding logins or use the `Import` button on the left side of the application header.
 
 ## Known Issues
  - All browsers:
-    - Cloud connect doesn't work as of now due to the application to having a client id yet as it needs to be launched to a web store first.
     - Settings don't work because they're yet to be implemented.
-    - Login button doesn't work as Cloud connect doesn't work for now.
+    - Login functionality yet to be implemented.
 
 ## Privacy Policy
 See https://github.com/leCrypt/leCrypt-web-extension/blob/master/privacy.md
