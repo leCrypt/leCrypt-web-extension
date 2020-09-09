@@ -21,7 +21,6 @@ leCrypt is a decentralised password manager which is cross-platform, free and se
 ## Known Issues
  - All browsers:
     - Settings don't work because they're yet to be implemented.
-    - Login functionality yet to be implemented.
 
 ## Privacy Policy
 See https://github.com/leCrypt/leCrypt-web-extension/blob/master/privacy.md
