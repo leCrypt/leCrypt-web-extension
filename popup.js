@@ -126,7 +126,10 @@ $(function () {
 						$("#refreshDialogSubmitError").text("Token Expired/Incorrect!")
 						console.log("[DEBUG] Token Expired/Incorrect")
 					}
-					//todo handle fails
+				}).fail(function(){
+					$("#refreshDialogSubmitError").text("Incorrect IP Address/Unreachable!")
+				}).always(function(){
+					progressOff()
 				})
 			})
 		})
