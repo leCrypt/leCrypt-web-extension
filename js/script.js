@@ -158,6 +158,7 @@ function loadUserData() {
 						$("#searchBarNotePassword").hide()
 						progressOff()
 					} else {
+						passHashToDataPoint()
 						$("#mainScreenSomethingFound").show()
 						console.log("[DEBUG] User found with the following: ")
 						console.log("[DEBUG] User Notes: " + encNotes.length)

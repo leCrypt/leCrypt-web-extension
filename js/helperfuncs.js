@@ -85,6 +85,17 @@ function passNotesToDataPoint(data){
 	});
 }
 
+function passHashToDataPoint(){
+	chrome.storage.local.get(['secpassverify']
+	, function (data) {
+		if(data.secpassverify!=undefined){
+			$.post( "http://localhost:8692/api/update/hash", JSON.stringify({ hash: data.secpassverify.sample}) , function( data ) {
+				console.log("[DEBUG] passHashToDataPoint")
+			});
+		}
+	});
+}
+
 function getNotesFromDataPoint(ip){
 	$.get( "http://"+ip+":8692/api/read/notes", function( data ) {
 		var gotNotes = JSON.parse(JSON.parse(data)).notes
@@ -114,5 +125,44 @@ function getQRDataFromNative(){
 	$.get('http://127.0.0.1:8692/api/qr_output', function(data){
 		var qrData = JSON.parse(data)
 		return qrData
+	})
+}
+
+function getHashFromNative(pass, ip){
+	$.get('http://localhost:8692/api/read/hash', function(data){
+		var hash = JSON.parse(JSON.parse(data)).hash
+		var passHash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
+		console.log("hash: "+ hash)
+		console.log("passHash: "+passHash)
+		if(hash == passHash){
+			getLoginsFromDataPoint(ip)
+			getNotesFromDataPoint(ip)
+			$("#loginScreenSubmitError").text("")
+			userData = {
+				"ik": pass,
+				"loggedIn": true
+			}
+			userVerifyData = {
+				"sample": passHash
+			}
+
+			chrome.storage.local.set({
+				'secpassverify': userVerifyData
+			}, function () {
+				console.log("[DEBUG] User verification data saved!");
+			});
+
+			chrome.storage.local.set({
+				'secpassd': userData
+			}, function () {
+				console.log("[DEBUG] User Saved set!");
+				$("#importAccountScreen").hide();
+				$("#mainScreen").show();
+			});
+
+			loadUserData()
+		} else {
+			$("#loginScreenSubmitError").text("Incorrect Password!")
+		}
 	})
 }

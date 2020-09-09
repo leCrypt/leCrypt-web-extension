@@ -28,11 +28,13 @@
         </section>
 
         <!-- Import Screen -->
-        <section id="importAccountScreen" style="display: grid; place-items: center; padding-top: 8%;">
+        <section id="importAccountScreen" style="display: grid; place-items: center; padding-top: 2%;">
             <img src="icons/inv.png" style="padding-bottom: 4%;"/>
-            <button style="margin-top: 3%; width: 40%;"> Google Drive </button>
-            <button style="margin-top: 3%; width: 40%;"> Dropbox </button>
-            <button style="margin-top: 3%; width: 40%;"> Onedrive </button>
+            <input id="loginScreenInputIPAddr" style="width: 55%;" placeholder="XXX.XXX.XXX.XXX"/>
+            <input id="loginScreenInputToken" style="width: 55%; margin-top: 2%;" placeholder="token"/>
+            <input id="loginScreenInputPassword" style="width: 55%; margin-top: 2%;" type="password" placeholder="Password"/>
+            <span id="loginScreenSubmitError" style="margin-top: 2%;"></span>
+            <button id="loginScreenSubmitLoginBtn" style="font-size: medium; margin-top: 1%; box-shadow: 5px 5px #a883f8;"><b>Submit</b></button>
         </section>
 
         <!-- Login Screen -->

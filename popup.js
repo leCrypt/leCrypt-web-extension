@@ -178,6 +178,27 @@ $(function () {
 		});
 	});
 
+	$("#importAccountScreen").ready(function(){
+		$("#loginScreenSubmitLoginBtn").click(function(){
+			progressOn()
+			var ip = $("#loginScreenInputIPAddr").val()
+			$.get('http://'+ip+':8692/api/getToken', function(data){
+				var qrData = JSON.parse(data)
+				var tk = $("#loginScreenInputToken").val()
+				if(qrData.token == tk){
+					getHashFromNative($("#loginScreenInputPassword").val(), ip)
+				} else {
+					$("#loginScreenSubmitError").text("Token Expired/Incorrect!")
+					console.log("[DEBUG] Token Expired/Incorrect")
+				}
+			}).fail(function(){
+				$("#loginScreenSubmitError").text("Incorrect IP Address/Unreachable!")
+			}).always(function(){
+				progressOff()
+			})
+		})
+	})
+
 	$("#createAccountScreen").ready(function () {
 
 		$('#createAccountPassword1').keydown(function (e) {
