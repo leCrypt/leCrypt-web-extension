@@ -32,7 +32,7 @@ This looks so empty, how about thinking of adding new and cool features to leCry
 
 ## License
 ```
-leCrypt is a decentralised password manager which is cross-platform, free and secure. It connects to your choice of cloud storage service account to allow syncing of your logins and notes with multiple devices.
+leCrypt is a decentralised password manager which is cross-platform, free and secure.
 Copyright (C) 2020  Aayushman Choudhary
 
 This program is free software: you can redistribute it and/or modify
