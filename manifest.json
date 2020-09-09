@@ -11,8 +11,7 @@
 		"32": "icons/icon32.png",
 		"38": "icons/icon38.png",
 		"48": "icons/icon48.png",
-		"64": "icons/icon64.png",
-		"128": "icons/icon128.png"
+		"64": "icons/icon64.png"
 	},
 	
 	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
