@@ -1,249 +1,251 @@
-body { 
-	max-width: 600px;
-	max-height: 450px;
-    min-width: 600px;
-    min-height: 450px;
+body {
+  max-width: 600px;
+  max-height: 450px;
+  min-width: 600px;
+  min-height: 450px;
 }
 
 button {
-    border-style: solid;
-    border-color: black;
-    border-width: 5px;
-    font-size: x-large;
-    padding-left: 1.2em;
-    padding-right: 1.2em;
-    padding-bottom: 0.5em;
-    padding-top: 0.5em;
-    background-color: black;
-    box-shadow: 5px 5px #a883f8;
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
+  border-style: solid;
+  border-color: black;
+  border-width: 5px;
+  font-size: x-large;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+  background-color: black;
+  box-shadow: 5px 5px #a883f8;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
 }
 
 button:hover {
-    border-color: black;
-    background-color: white;
-    color: black;
+  border-color: black;
+  background-color: white;
+  color: black;
 }
 
 input {
-    border-style: solid;
-    border-color: black;
-    border-width: 5px;
-    font-size: x-large;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    padding-bottom: 0.2em;
-    padding-top: 0.2em;
-    background-color: white;
-    box-shadow: 5px 5px #a883f8;
-    color: black;
+  border-style: solid;
+  border-color: black;
+  border-width: 5px;
+  font-size: x-large;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  background-color: white;
+  box-shadow: 5px 5px #a883f8;
+  color: black;
 }
 
 textarea {
-    border-style: solid;
-    border-color: black;
-    border-width: 5px;
-    font-size: medium;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    padding-bottom: 0.2em;
-    padding-top: 0.2em;
-    background-color: white;
-    box-shadow: 5px 5px #a883f8;
-    color: black;
+  border-style: solid;
+  border-color: black;
+  border-width: 5px;
+  font-size: medium;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  background-color: white;
+  box-shadow: 5px 5px #a883f8;
+  color: black;
 }
 
 #deleteEditNoteBtn {
-    width: 25%;
-    height: 14%;
-    padding: 0px;
-    border-width: 0px;
-    box-shadow: 0px 0px;
-    margin-top: 8px;
-    color: white;
-    background-color: red;
+  width: 25%;
+  height: 14%;
+  padding: 0px;
+  border-width: 0px;
+  box-shadow: 0px 0px;
+  margin-top: 8px;
+  color: white;
+  background-color: red;
 }
 
 #deleteEditNoteBtn:hover {
-    border-width: 3px;
-    background-color: white;
-    color: black;
+  border-width: 3px;
+  background-color: white;
+  color: black;
 }
 
 #deleteEditPasswordBtn {
-    width: 25%;
-    height: 14%;
-    padding: 0px;
-    border-width: 0px;
-    box-shadow: 0px 0px;
-    margin-top: 8px;
-    color: white;
-    background-color: red;
+  width: 25%;
+  height: 14%;
+  padding: 0px;
+  border-width: 0px;
+  box-shadow: 0px 0px;
+  margin-top: 8px;
+  color: white;
+  background-color: red;
 }
 
 #deleteEditPasswordBtn:hover {
-    border-width: 3px;
-    background-color: white;
-    color: black;
+  border-width: 3px;
+  background-color: white;
+  color: black;
 }
 
-.listItemPass{
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
-    font-size: normal;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    background-color: white;
-    box-shadow: 0px 0px;
-    color: black;
-    width: 80%;
+.listItemPass {
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  font-size: normal;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  background-color: white;
+  box-shadow: 0px 0px;
+  color: black;
+  width: 80%;
 }
 
-.smallboxes{
-    padding-top: 2%;
-    padding-right: 4%;
-    color: #138496;
+.smallboxes {
+  padding-top: 2%;
+  padding-right: 4%;
+  color: #138496;
 }
 
 .tooltip {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
-  
+
 .tooltip .tooltiptext {
-    visibility: hidden;
-    font-size: 12px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 10px;
-    padding-top: 2px;
-    padding-bottom: 4px;
-    padding-right: 6px;
-    padding-left: 8px;
-    margin-left: 2px;
-  
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 5;
+  visibility: hidden;
+  font-size: 12px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  padding-right: 6px;
+  padding-left: 8px;
+  margin-left: 2px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 5;
 }
 
 #import {
-    position: absolute;
-    left: -140px;
-    transition: 0.2s;
-    height: 17%;
-    width: 150px;
-    text-decoration: none;
-    font-size: 30px;
-    box-shadow: 0 0;
-    border-radius: 0 5px 5px 0;
+  position: absolute;
+  left: -140px;
+  transition: 0.2s;
+  height: 17%;
+  width: 150px;
+  text-decoration: none;
+  font-size: 30px;
+  box-shadow: 0 0;
+  border-radius: 0 5px 5px 0;
 }
 
 #refresh {
-    position: absolute;
-    top: -65px;
-    left: 15%;
-    transition: 0.2s;
-    height: 17%;
-    width: 150px;
-    text-decoration: none;
-    font-size: 30px;
-    box-shadow: 0 0;
-    border-radius: 0px 0px 5px 5px;
-    border-color: #339af0;
-    background-color: #339af0;
+  position: absolute;
+  top: -65px;
+  left: 15%;
+  transition: 0.2s;
+  height: 17%;
+  width: 150px;
+  text-decoration: none;
+  font-size: 30px;
+  box-shadow: 0 0;
+  border-radius: 0px 0px 5px 5px;
+  border-color: #339af0;
+  background-color: #339af0;
 }
 
 #info {
-    position: absolute;
-    top: -65px;
-    right: 15%;
-    transition: 0.2s;
-    height: 17%;
-    width: 150px;
-    text-decoration: none;
-    font-size: 30px;
-    box-shadow: 0 0;
-    border-radius: 0px 0px 5px 5px;
-    border-color: #339af0;
-    background-color: #339af0;
+  position: absolute;
+  top: -65px;
+  right: 15%;
+  transition: 0.2s;
+  height: 17%;
+  width: 150px;
+  text-decoration: none;
+  font-size: 30px;
+  box-shadow: 0 0;
+  border-radius: 0px 0px 5px 5px;
+  border-color: #339af0;
+  background-color: #339af0;
 }
-  
+
 #settings {
-    position: absolute;
-    right: -140px;
-    transition: 0.2s;
-    height: 17%;
-    width: 150px;
-    text-decoration: none;
-    font-size: 30px;
-    box-shadow: 0 0;
-    border-radius: 5px 0 0 5px;
+  position: absolute;
+  right: -140px;
+  transition: 0.2s;
+  height: 17%;
+  width: 150px;
+  text-decoration: none;
+  font-size: 30px;
+  box-shadow: 0 0;
+  border-radius: 5px 0 0 5px;
 }
-  
-  
+
 #import:hover {
-    left: -10px;
+  left: -10px;
 }
-  
+
 #refresh:hover {
-    top: -10px;
-    color: white;
+  top: -10px;
+  color: white;
 }
 
 #info:hover {
-    top: -10px;
-    color: white;
+  top: -10px;
+  color: white;
 }
-  
+
 #settings:hover {
-    right: -10px;
+  right: -10px;
 }
-  
+
 #import {
-    top: 4%;
+  top: 4%;
 }
-  
+
 #settings {
-    top: 4%;
+  top: 4%;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
+  visibility: visible;
 }
 
-ul, li {list-style-type: none;}
+ul,
+li {
+  list-style-type: none;
+}
 
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
- 
+
 /* button */
 ::-webkit-scrollbar-button {
-    background: #6c63ff;
-    border-radius: 50px;
+  background: #6c63ff;
+  border-radius: 50px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #6c63ff;
-    border-radius: 50px;
+  background: #6c63ff;
+  border-radius: 50px;
 }
- 
+
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #d3d3d3;
+  background: #d3d3d3;
 }
- 
+
 /* The track NOT covered by the handle.
 ::-webkit-scrollbar-track-piece {
     background: #000;
@@ -251,10 +253,10 @@ ul, li {list-style-type: none;}
  
 /* Corner */
 ::-webkit-scrollbar-corner {
-    background: #999999;
+  background: #999999;
 }
- 
+
 /* Resizer */
 ::-webkit-resizer {
-    background: #111111;
+  background: #111111;
 }

@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/bulma.min.css">
-        <link rel="stylesheet" href="css/fileimport.css" />
-	</head>
-	
-	<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/bulma.min.css" />
+    <link rel="stylesheet" href="css/fileimport.css" />
+  </head>
 
-        <div id="chooseServiceScreen" style="display: grid; padding: 4%; place-items: center; margin-top: 12%;">
-            <h1 class="title">Import From?</h1>
-            <button id="serviceGoogleBtn" style="margin-top: 3%; width: 40%;"> Google </button>
-            <button id="serviceFirefoxBtn" style="margin-top: 3%; width: 40%;"> Firefox </button>
-            <button id="serviceBitwardenBtn" style="margin-top: 3%; width: 40%;"> Bitwarden </button>
-        </div>
+  <body>
+    <div
+      id="chooseServiceScreen"
+      style="display: grid; padding: 4%; place-items: center; margin-top: 12%"
+    >
+      <h1 class="title">Import From?</h1>
+      <button id="serviceGoogleBtn" style="margin-top: 3%; width: 40%">
+        Google
+      </button>
+      <button id="serviceFirefoxBtn" style="margin-top: 3%; width: 40%">
+        Firefox
+      </button>
+      <button id="serviceBitwardenBtn" style="margin-top: 3%; width: 40%">
+        Bitwarden
+      </button>
+    </div>
 
-        <!-- Nothing found page -->
-        <div id="loginImportFormScreen" style="display: grid; padding: 4%; place-items: center; margin-top: 15%;">
-            <h1 class="title">Import Logins</h1>
-            <form id="loginsImportForm" enctype="multipart/form-data" method="post">
-                <input type="file" name="loginFile" id="loginFileImport" accept=".csv" (change)="uploadLoginCSV($event)"><br>
-                <span id="loginImportSpan" style="margin-top: 4%;"></span>
-            </form>          
-        </div>
-
-    </body>
-    <script src="js/jquery.js"></script>
-    <script src="js/crypto-js.min.js"></script>
-    <script src="js/all.js"></script>
-    <script src="js/helperfuncs.js"></script>
-    <script src="js/fileimport.js"></script>
+    <!-- Nothing found page -->
+    <div
+      id="loginImportFormScreen"
+      style="display: grid; padding: 4%; place-items: center; margin-top: 15%"
+    >
+      <h1 class="title">Import Logins</h1>
+      <form id="loginsImportForm" enctype="multipart/form-data" method="post">
+        <input
+          type="file"
+          name="loginFile"
+          id="loginFileImport"
+          accept=".csv"
+          (change)="uploadLoginCSV($event)"
+        /><br />
+        <span id="loginImportSpan" style="margin-top: 4%"></span>
+      </form>
+    </div>
+  </body>
+  <script src="js/jquery.js"></script>
+  <script src="js/crypto-js.min.js"></script>
+  <script src="js/all.js"></script>
+  <script src="js/helperfuncs.js"></script>
+  <script src="js/fileimport.js"></script>
 </html>
