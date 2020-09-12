@@ -98,7 +98,7 @@ function passHashToDataPoint(){
 
 function getNotesFromDataPoint(ip){
 	$.get( "http://"+ip+":8692/api/read/notes", function( data ) {
-		var gotNotes = JSON.parse(JSON.parse(data)).notes
+		var gotNotes = JSON.parse(data).notes
 		console.log(gotNotes)
 		chrome.storage.local.set({
 			'secpassNotesData': gotNotes
@@ -111,7 +111,7 @@ function getNotesFromDataPoint(ip){
 
 function getLoginsFromDataPoint(ip){
 	$.get( "http://"+ip+":8692/api/read/passes", function( data ) {
-		var gotPasses = JSON.parse(JSON.parse(data)).passes
+		var gotPasses = JSON.parse(data).passes
 		console.log(gotPasses)
 		chrome.storage.local.set({
 			'secpassPassesData': gotPasses
@@ -130,7 +130,7 @@ function getQRDataFromNative(){
 
 function getHashFromNative(pass, ip){
 	$.get('http://localhost:8692/api/read/hash', function(data){
-		var hash = JSON.parse(JSON.parse(data)).hash
+		var hash = JSON.parse(data).hash
 		var passHash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
 		console.log("hash: "+ hash)
 		console.log("passHash: "+passHash)
