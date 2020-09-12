@@ -1,53 +1,49 @@
 {
-	"manifest_version": 2,
-	
-	"name": "leCrypt",
-	"description": "A secure and decentralised password manager",
-	"version": "1.0.0",
-	
-	"icons": {
-		"16": "icons/icon16.png",
-		"19": "icons/icon19.png",
-		"32": "icons/icon32.png",
-		"38": "icons/icon38.png",
-		"48": "icons/icon48.png",
-		"64": "icons/icon64.png"
-	},
-	
-	"permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
-	
-	"background": {
-		"scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
-		"persistent": true
-	},
+  "manifest_version": 2,
 
-  	"content_scripts": [{
-      	"matches": [
-        	"<all_urls>"
-      	],
-      	"js": [
-        	"js/autofill.js"
-      	]
-	}],	
-	
-	"commands": {
-    	"_execute_browser_action": {
-    		"suggested_key": {
-        		"windows": "Alt+Shift+C",
-        		"mac": "Alt+Shift+C",
-        		"chromeos": "Alt+Shift+C",
-        		"linux": "Alt+Shift+C"
-      		}
-    	}
-	},
-	  
-	"browser_action": {
-		"default_icon": "icons/icon64.png",
-		"default_title": "leCrypt",
-		"default_popup": "popup.html"
-	},
+  "name": "leCrypt",
+  "description": "A secure and decentralised password manager",
+  "version": "1.0.0",
 
-	"web_accessible_resources": [
-    	"js/autofill.js"
-  	]
+  "icons": {
+    "16": "icons/icon16.png",
+    "19": "icons/icon19.png",
+    "32": "icons/icon32.png",
+    "38": "icons/icon38.png",
+    "48": "icons/icon48.png",
+    "64": "icons/icon64.png"
+  },
+
+  "permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
+
+  "background": {
+    "scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
+    "persistent": true
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/autofill.js"]
+    }
+  ],
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+Shift+C",
+        "mac": "Alt+Shift+C",
+        "chromeos": "Alt+Shift+C",
+        "linux": "Alt+Shift+C"
+      }
+    }
+  },
+
+  "browser_action": {
+    "default_icon": "icons/icon64.png",
+    "default_title": "leCrypt",
+    "default_popup": "popup.html"
+  },
+
+  "web_accessible_resources": ["js/autofill.js"]
 }
