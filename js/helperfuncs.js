@@ -1,12 +1,3 @@
-function byteArrayToString(byteArray) {
-  var str = "",
-    i;
-  for (i = 0; i < byteArray.length; ++i) {
-    str += escape(String.fromCharCode(byteArray[i]));
-  }
-  return str;
-}
-
 function escapeOutput(toOutput) {
   return toOutput
     .replace(/\&/g, "&")
@@ -155,39 +146,41 @@ function getQRDataFromNative() {
 
 function getHashFromNative(pass, ip){
 	$.get('http://localhost:8692/api/read/hash', function(data){
-		var hash = JSON.parse(data).hash
-		var passHash = byteArrayToString(CryptoJS.PBKDF2(pass, "").words)
-		console.log("hash: "+ hash)
-		console.log("passHash: "+passHash)
-		if(hash == passHash){
-			getLoginsFromDataPoint(ip)
-			getNotesFromDataPoint(ip)
-			$("#loginScreenSubmitError").text("")
-			userData = {
-				"ik": pass,
-				"loggedIn": true
-			}
-			userVerifyData = {
-				"sample": passHash
-			}
-
-			chrome.storage.local.set({
-				'secpassverify': userVerifyData
-			}, function () {
-				console.log("[DEBUG] User verification data saved!");
-			});
-
-			chrome.storage.local.set({
-				'secpassd': userData
-			}, function () {
-				console.log("[DEBUG] User Saved set!");
-				$("#importAccountScreen").hide();
-				$("#mainScreen").show();
-			});
-
-			loadUserData()
-		} else {
-			$("#loginScreenSubmitError").text("Incorrect Password!")
-		}
+    var hash = JSON.parse(data).hash
+    var hasher = new PBKDF2(pass, "salt", 1000, 16)
+    hasher.deriveKey(function(){}, function(key){
+      console.log("hash: "+ hash)
+      console.log("passHash: "+key)
+      if(hash == key){
+        getLoginsFromDataPoint(ip)
+        getNotesFromDataPoint(ip)
+        $("#loginScreenSubmitError").text("")
+        userData = {
+          "ik": pass,
+          "loggedIn": true
+        }
+        userVerifyData = {
+          "sample": key
+        }
+  
+        chrome.storage.local.set({
+          'secpassverify': userVerifyData
+        }, function () {
+          console.log("[DEBUG] User verification data saved!");
+        });
+  
+        chrome.storage.local.set({
+          'secpassd': userData
+        }, function () {
+          console.log("[DEBUG] User Saved set!");
+          $("#importAccountScreen").hide();
+          $("#mainScreen").show();
+        });
+  
+        loadUserData()
+      } else {
+        $("#loginScreenSubmitError").text("Incorrect Password!")
+      }
+    })
   })
 }

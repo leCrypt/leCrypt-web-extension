@@ -1,5 +1,5 @@
 $(function () {
-  chrome.idle.setDetectionInterval(60 * 5);
+  chrome.idle.setDetectionInterval(15);
   console.log("[Background] Start on: " + new Date());
   chrome.idle.onStateChanged.addListener(function (val) {
     if (val == "idle") {
