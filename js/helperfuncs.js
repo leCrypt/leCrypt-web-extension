@@ -121,7 +121,6 @@ function passHashToDataPoint() {
   });
 }
 
-<<<<<<< HEAD
 function getNotesFromDataPoint(ip){
 	$.get( "http://"+ip+":8692/api/read/notes", function( data ) {
 		var gotNotes = JSON.parse(data).notes
@@ -145,36 +144,6 @@ function getLoginsFromDataPoint(ip){
 			console.log("[DEBUG] Refresh passes done!")
 		})
 	});
-=======
-function getNotesFromDataPoint(ip) {
-  $.get("http://" + ip + ":8692/api/read/notes", function (data) {
-    var gotNotes = JSON.parse(JSON.parse(data)).notes;
-    console.log(gotNotes);
-    chrome.storage.local.set(
-      {
-        secpassNotesData: gotNotes,
-      },
-      function () {
-        console.log("[DEBUG] Refresh notes done!");
-      }
-    );
-  });
-}
-
-function getLoginsFromDataPoint(ip) {
-  $.get("http://" + ip + ":8692/api/read/passes", function (data) {
-    var gotPasses = JSON.parse(JSON.parse(data)).passes;
-    console.log(gotPasses);
-    chrome.storage.local.set(
-      {
-        secpassPassesData: gotPasses,
-      },
-      function () {
-        console.log("[DEBUG] Refresh passes done!");
-      }
-    );
-  });
->>>>>>> e2f0662d1a80324dda0d2193983223385031bace
 }
 
 function getQRDataFromNative() {
