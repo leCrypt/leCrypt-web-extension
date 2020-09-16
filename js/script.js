@@ -172,19 +172,13 @@ function loadUserData() {
             passLoginsToDataPoint(encPasses);
             for (i = 0; i < encPasses.length; i++) {
               var website = escapeOutput(
-                CryptoJS.AES.decrypt(encPasses[i].website, ik).toString(
-                  CryptoJS.enc.Utf8
-                )
+                decrypt(encPasses[i].website, ik)
               );
               var username = escapeOutput(
-                CryptoJS.AES.decrypt(encPasses[i].username, ik).toString(
-                  CryptoJS.enc.Utf8
-                )
+                decrypt(encPasses[i].username, ik)
               );
               var password = escapeOutput(
-                CryptoJS.AES.decrypt(encPasses[i].password, ik).toString(
-                  CryptoJS.enc.Utf8
-                )
+                decrypt(encPasses[i].password, ik)
               );
               var passItem = new LoginItem(website, username, password, i);
               decryptedPasswords.push(passItem);
@@ -196,14 +190,10 @@ function loadUserData() {
             passNotesToDataPoint(encNotes);
             for (i = 0; i < encNotes.length; i++) {
               var title = escapeOutput(
-                CryptoJS.AES.decrypt(encNotes[i].title, ik).toString(
-                  CryptoJS.enc.Utf8
-                )
+                decrypt(encNotes[i].title, ik)
               );
               var note = escapeOutput(
-                CryptoJS.AES.decrypt(encNotes[i].note, ik).toString(
-                  CryptoJS.enc.Utf8
-                )
+                decrypt(encNotes[i].note, ik)
               );
               var noteItem = new NoteItem(title, note, i);
               decryptedNotes.push(noteItem);

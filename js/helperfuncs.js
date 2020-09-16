@@ -19,6 +19,45 @@ function progressOff() {
   $("#progressBarDialog").css("display", "none");
 }
 
+function encrypt(value, key) {
+  var salt = CryptoJS.lib.WordArray.random(128/8);
+  
+  var key = CryptoJS.PBKDF2(key, salt, {
+      keySize: 256/32,
+      iterations: 1
+  });
+
+  var iv = CryptoJS.lib.WordArray.random(128/8);
+  
+  var encrypted = CryptoJS.AES.encrypt(value, key, { 
+    iv: iv, 
+    padding: CryptoJS.pad.Pkcs7,
+    mode: CryptoJS.mode.CBC
+  });
+
+  var data = salt.toString()+ iv.toString() + encrypted.toString();
+  return data;
+}
+
+function decrypt(data, pass) {
+  var salt = CryptoJS.enc.Hex.parse(data.substr(0, 32))
+  var iv = CryptoJS.enc.Hex.parse(data.substr(32, 32))
+  var encrypted = data.substring(64)
+  
+  var key = CryptoJS.PBKDF2(pass, salt, {
+      keySize: 256/32,
+      iterations: 1
+  })
+
+  var decrypted = CryptoJS.AES.decrypt(encrypted, key, { 
+    iv: iv, 
+    padding: CryptoJS.pad.Pkcs7,
+    mode: CryptoJS.mode.CBC    
+  })
+
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
 function noteItemGive(title, note) {
   var noteItem =
     "" +
@@ -147,11 +186,10 @@ function getQRDataFromNative() {
 function getHashFromNative(pass, ip){
 	$.get('http://localhost:8692/api/read/hash', function(data){
     var hash = JSON.parse(data).hash
-    var hasher = new PBKDF2(pass, "salt", 1000, 16)
-    hasher.deriveKey(function(){}, function(key){
+    var keyHash = CryptoJS.SHA256(pass)
       console.log("hash: "+ hash)
-      console.log("passHash: "+key)
-      if(hash == key){
+      console.log("passHash: "+keyHash.toString(CryptoJS.enc.Hex))
+      if(hash == keyHash){
         getLoginsFromDataPoint(ip)
         getNotesFromDataPoint(ip)
         $("#loginScreenSubmitError").text("")
@@ -160,15 +198,15 @@ function getHashFromNative(pass, ip){
           "loggedIn": true
         }
         userVerifyData = {
-          "sample": key
+          "sample": keyHash.toString(CryptoJS.enc.Hex)
         }
-  
+
         chrome.storage.local.set({
           'secpassverify': userVerifyData
         }, function () {
           console.log("[DEBUG] User verification data saved!");
         });
-  
+
         chrome.storage.local.set({
           'secpassd': userData
         }, function () {
@@ -176,11 +214,10 @@ function getHashFromNative(pass, ip){
           $("#importAccountScreen").hide();
           $("#mainScreen").show();
         });
-  
+
         loadUserData()
       } else {
         $("#loginScreenSubmitError").text("Incorrect Password!")
       }
-    })
   })
 }

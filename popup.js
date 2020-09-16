@@ -45,31 +45,29 @@ $(function () {
           var hashed = data.secpassverify.sample;
           console.log(hashed);
           if (data.secpassverify != undefined) {
-            var hasher = new PBKDF2(pass, "salt", 1000, 16)
-            hasher.deriveKey(function(){}, function(hash){
-              console.log(hash);
-              if (hash == hashed) {
-                loadUserData();
-                userData = {
-                  ik: pass,
-                  loggedIn: true,
-                };
-  
-                chrome.storage.local.set(
-                  {
-                    secpassd: userData,
-                  },
-                  function () {
-                    console.log("[DEBUG] User reloaded!");
-                    $("#loginAccountSubmitError").text("");
-                    $("#loginAccountScreen").hide();
-                    $("#mainScreen").show();
-                  }
-                );
-              } else {
-                $("#loginAccountSubmitError").text("Incorrect password!");
-              }
-            })
+            var hash = CryptoJS.SHA256(pass);
+            console.log(hash.toString(CryptoJS.enc.Hex));
+            if (hash == hashed) {
+              loadUserData();
+              userData = {
+                ik: pass,
+                loggedIn: true,
+              };
+
+              chrome.storage.local.set(
+                {
+                  secpassd: userData,
+                },
+                function () {
+                  console.log("[DEBUG] User reloaded!");
+                  $("#loginAccountSubmitError").text("");
+                  $("#loginAccountScreen").hide();
+                  $("#mainScreen").show();
+                }
+              );
+            } else {
+              $("#loginAccountSubmitError").text("Incorrect password!");
+            }
           } else {
             $("#form input").keydown(function (e) {
               if (e.keyCode == 13) {
@@ -236,56 +234,54 @@ $(function () {
             loggedIn: true,
           };
 
-          var hasher = new PBKDF2(pass1, "salt", 1000, 16)
-          hasher.deriveKey(function(){}, function(hash){
+          var hash = CryptoJS.SHA256(pass1)
 
-            userVerifyData = {
-              sample: hash,
-            };
+          userVerifyData = {
+            sample: hash.toString(CryptoJS.enc.Hex),
+          };
 
-            chrome.storage.local.set(
-              {
-                secpassverify: userVerifyData,
-              },
-              function () {
-                console.log("[DEBUG] User verification data saved!");
-              }
-            );
+          chrome.storage.local.set(
+            {
+              secpassverify: userVerifyData,
+            },
+            function () {
+              console.log("[DEBUG] User verification data saved!");
+            }
+          );
 
-            chrome.storage.local.set(
-              {
-                secpassd: userData,
-              },
-              function () {
-                console.log("[DEBUG] User Saved set!");
-                $("#createAccountScreen").hide();
-                $("#mainScreen").show();
-              }
-            );
+          chrome.storage.local.set(
+            {
+              secpassd: userData,
+            },
+            function () {
+              console.log("[DEBUG] User Saved set!");
+              $("#createAccountScreen").hide();
+              $("#mainScreen").show();
+            }
+          );
 
-            userPassesData = [];
-            chrome.storage.local.set(
-              {
-                secpassPassesData: userPassesData,
-              },
-              function () {
-                console.log("[DEBUG] Passes Data initialised!");
-                console.log(userPassesData);
-              }
-            );
+          userPassesData = [];
+          chrome.storage.local.set(
+            {
+              secpassPassesData: userPassesData,
+            },
+            function () {
+              console.log("[DEBUG] Passes Data initialised!");
+              console.log(userPassesData);
+            }
+          );
 
-            userNotesData = [];
-            chrome.storage.local.set(
-              {
-                secpassNotesData: userNotesData,
-              },
-              function () {
-                console.log("[DEBUG] Notes Data initialised!");
-                console.log(userNotesData);
-              }
-            );
-            loadUserData();
-          })
+          userNotesData = [];
+          chrome.storage.local.set(
+            {
+              secpassNotesData: userNotesData,
+            },
+            function () {
+              console.log("[DEBUG] Notes Data initialised!");
+              console.log(userNotesData);
+            }
+          );
+          loadUserData();
         }
       }
     });

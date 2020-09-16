@@ -98,9 +98,9 @@ function generatePassesReadables(ik, passes) {
               var usrE = $(item).find(".username").val();
               var passE = $(item).find(".password-box").val();
               encryptedPayload = {
-                website: CryptoJS.AES.encrypt(webE, key).toString(),
-                username: CryptoJS.AES.encrypt(usrE, key).toString(),
-                password: CryptoJS.AES.encrypt(passE, key).toString(),
+                website: encrypt(webE, key),
+                username: encrypt(usrE, key),
+                password: encrypt(passE, key),
               };
 
               encPasses[ind] = encryptedPayload;
@@ -268,8 +268,8 @@ function generateNotesReadables(ik, notes) {
               var titleE = $(item).find(".title").val();
               var noteE = $(item).find(".note").val();
               encryptedPayload = {
-                title: CryptoJS.AES.encrypt(titleE, key).toString(),
-                note: CryptoJS.AES.encrypt(noteE, key).toString(),
+                title: encrypt(titleE, key),
+                note: encrypt(noteE, key),
               };
               encNotes[ind] = encryptedPayload;
               decryptedNotes[ind] = new NoteItem(titleE, noteE, ind);

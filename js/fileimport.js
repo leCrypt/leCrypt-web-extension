@@ -77,7 +77,7 @@ function importLogins(
         if (i < lines.length && lines[i].includes(delimiter)) {
           fields = lines[i].split(delimiter);
           flag = service == "google" || service == "bitwarden";
-          var encryptedWebsite = CryptoJS.AES.encrypt(
+          var encryptedWebsite = encrypt(
             base_url(
               flag
                 ? fields[urlIndex]
@@ -85,7 +85,7 @@ function importLogins(
             ),
             key
           ).toString();
-          var encryptedUsername = CryptoJS.AES.encrypt(
+          var encryptedUsername = encrypt(
             flag
               ? fields[usernameIndex]
               : fields[usernameIndex].slice(
@@ -94,7 +94,7 @@ function importLogins(
                 ),
             key
           ).toString();
-          var encryptedPassword = CryptoJS.AES.encrypt(
+          var encryptedPassword = encrypt(
             flag
               ? fields[passwordIndex]
               : fields[passwordIndex].slice(

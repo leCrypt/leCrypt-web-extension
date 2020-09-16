@@ -3,8 +3,8 @@ function saveSecNote(title, note) {
     progressOn();
     var key = ik;
     encryptedPayload = {
-      title: CryptoJS.AES.encrypt(title, key).toString(),
-      note: CryptoJS.AES.encrypt(note, key).toString(),
+      title: encrypt(title, key),
+      note: encrypt(note, key),
     };
     encNotes.unshift(encryptedPayload);
     decryptedNotes.unshift(new NoteItem(title, note, 0));
@@ -43,9 +43,9 @@ function saveSecPassword(website, username, password) {
     progressOn();
     var key = ik;
     encryptedPayload = {
-      website: CryptoJS.AES.encrypt(website, key).toString(),
-      username: CryptoJS.AES.encrypt(username, key).toString(),
-      password: CryptoJS.AES.encrypt(password, key).toString(),
+      website: encrypt(website, key),
+      username: encrypt(username, key),
+      password: encrypt(password, key),
     };
     encPasses.unshift(encryptedPayload);
     decryptedPasswords.unshift(new LoginItem(website, username, password, 0));

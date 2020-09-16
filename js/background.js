@@ -46,18 +46,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, respond) {
               var passes = data.secpassPassesData;
               console.log(passes);
               for (i = 0; i < passes.length; i++) {
-                var website = CryptoJS.AES.decrypt(
+                var website = decrypt(
                   passes[i].website,
                   userData.ik
-                ).toString(CryptoJS.enc.Utf8);
-                var username = CryptoJS.AES.decrypt(
+                )
+                decrypt(
                   passes[i].username,
                   userData.ik
-                ).toString(CryptoJS.enc.Utf8);
-                var password = CryptoJS.AES.decrypt(
+                )
+                var password = decrypt(
                   passes[i].password,
                   userData.ik
-                ).toString(CryptoJS.enc.Utf8);
+                )
                 if (url.includes(website)) {
                   console.log("[DEBUG] User Data Found for the website!");
                   chrome.tabs.sendMessage(tabs[0].id, {
