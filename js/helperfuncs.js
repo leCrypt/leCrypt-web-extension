@@ -39,12 +39,12 @@ function encrypt(value, key) {
   return data;
 }
 
-function decrypt(data, pass) {
-  var salt = CryptoJS.enc.Hex.parse(data.substr(0, 32))
-  var iv = CryptoJS.enc.Hex.parse(data.substr(32, 32))
-  var encrypted = data.substring(64)
+function decrypt(value, key) {
+  var salt = CryptoJS.enc.Hex.parse(value.substr(0, 32))
+  var iv = CryptoJS.enc.Hex.parse(value.substr(32, 32))
+  var encrypted = value.substring(64)
   
-  var key = CryptoJS.PBKDF2(pass, salt, {
+  var key = CryptoJS.PBKDF2(key, salt, {
       keySize: 256/32,
       iterations: 1
   })
@@ -162,7 +162,6 @@ function getNotesFromDataPoint(ip){
 		})
 	});
 }
-
 
 function getLoginsFromDataPoint(ip){
 	$.get( "http://"+ip+":8692/api/read/passes", function( data ) {
