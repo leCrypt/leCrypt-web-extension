@@ -35,7 +35,7 @@ function encrypt(value, key) {
     mode: CryptoJS.mode.CBC
   });
 
-  var data = salt.toString()+ iv.toString() + encrypted.toString();
+  var data = salt.toString() + iv.toString() + encrypted.toString();
   return data;
 }
 
@@ -64,17 +64,13 @@ function noteItemGive(title, note) {
     '<div class="notesItem" style="border-style: solid; border-color: black; border-width: 4px; border-radius: 5px; font-size: medium; margin: 0.5em; padding-left: 2%; padding-bottom: 2%; background-color: white; color: black;">' +
     " <li>" +
     ' <div class="notes-header" style="display: flex; justify-content: space-between;">' +
-    '   <input readonly style="margin-top: 4%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-weight: bold; font-size: 24px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;  border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" class="title" value="' +
-    title +
-    '">' +
+    '   <input readonly style="margin-top: 4%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-weight: bold; font-size: 24px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;  border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;" class="title" value="' + title + '">' +
     '   <div class="smallboxes edit-note" style="margin-top: 1.3%;"><i class="fas fa-pen"></i></div>' +
     '	<div class="smallboxes save-note" style="margin-top: 1.8%; display: none;"><i class="fas fa-check"></i></div>' +
     " </div>" +
     '   <div style="width:80%; border: 2px solid #6c63ff; border-radius: 50px;"></div>' +
     ' 	<div style="display: flex; justify-content: space-between;">' +
-    '   	<textarea readonly class="note" style="margin-top: 2%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-size: 12px; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;">' +
-    note +
-    "</textarea>" +
+    '   	<textarea readonly class="note" style="margin-top: 2%; margin-bottom: 2%; margin-left: 1%; width: 85%; font-size: 12px; border-style: solid; border-radius: 4px; border-color: black; border-width: 2px; font-size: large; box-shadow: 0px 0px;">' + note + "</textarea>" +
     '		<div class="smallboxes delete-note" style="margin-top: 1%; margin-left: 5%;"><i class="fas fa-trash"></i></div>' +
     "	</div>" +
     " </li>" +
