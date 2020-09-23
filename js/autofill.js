@@ -19,7 +19,7 @@
 
       console.log("[DEBUG] Users length: " + users.length);
       console.log("[DEBUG] Passes length: " + passes.length);
-      if (users.length >= 1 && passes.length == 1) {
+      if (users.length >= 1 && passes.length >= 1) {
         var user = users[0];
         var pass = passes[0];
         console.log("[DEBUG] Sending message to background.js");
@@ -31,10 +31,9 @@
         ) {
           if (message.from == "secpass_background") {
             if (message.action == "secpass_do_fill") {
+              console.log("[DEBUG] User data filled!")
               user.value = message.user;
               pass.value = message.pass;
-              console.log(message.user);
-              console.log(message.pass);
               user.style.backgroundColor = "#edffe3";
               pass.style.backgroundColor = "#edffe3";
             }

@@ -17,7 +17,7 @@
   "permissions": ["activeTab", "idle", "storage", "tabs", "<all_urls>"],
 
   "background": {
-    "scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/background.js"],
+    "scripts": ["js/jquery.js", "js/crypto-js.min.js", "js/helperfuncs.js", "js/background.js"],
     "persistent": true
   },
 

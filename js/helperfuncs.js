@@ -8,7 +8,7 @@ function escapeOutput(toOutput) {
 }
 
 function regexWebsite(inp) {
-  return /^(https?):\/\/[^\s$.?#].[^\s]*$/i.test(inp);
+  return /^(https|http|ftp):\/\/[^\s$.?#].[^\s]*$/i.test(inp);
 }
 
 function progressOn() {

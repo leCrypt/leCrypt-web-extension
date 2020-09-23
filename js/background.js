@@ -23,15 +23,6 @@ $(function () {
   });
 });
 
-function escapeOutput(toOutput) {
-  return toOutput
-    .replace(/\&/g, "&amp;")
-    .replace(/\</g, "&lt;")
-    .replace(/\>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/\'/g, "&#x27");
-}
-
 chrome.runtime.onMessage.addListener(function (message, sender, respond) {
   if (message.from == "secpass_content_script") {
     if ((message.action = "secpass_fill_available")) {
@@ -44,13 +35,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, respond) {
             console.log("[DEBUG] User is logged out!");
             chrome.storage.local.get(["secpassPassesData"], function (data) {
               var passes = data.secpassPassesData;
-              console.log(passes);
               for (i = 0; i < passes.length; i++) {
                 var website = decrypt(
                   passes[i].website,
                   userData.ik
                 )
-                decrypt(
+                var username = decrypt(
                   passes[i].username,
                   userData.ik
                 )
