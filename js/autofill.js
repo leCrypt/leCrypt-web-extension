@@ -41,7 +41,7 @@
         });
         chrome.runtime.sendMessage("", {
           from: "secpass_content_script",
-          action: "secpass_fill_available",
+          action: "secpass_fill_available"
         });
       }
     }

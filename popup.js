@@ -8,6 +8,7 @@ $(function () {
   $("#mainScreenSomethingFound").hide();
   $("#saveEditNoteBtn").hide();
   $("#saveEditPasswordBtn").hide();
+  $("#settingsScreen").hide();
 
   console.log("[DEBUG] Secpass started!");
 
@@ -137,9 +138,30 @@ $(function () {
     });
 
     $("#settings").click(function () {
-      console.log("[DEBUG] Settings yet to be implemented!");
-      //settings page
+      $("#mainScreen").hide()
+      $("#settingsScreen").show()
     });
+
+    $("#settings").ready(function (){
+      $("#settingsHomeButton").click(function() {
+        $("#mainScreen").show()
+        $("#settingsScreen").hide()
+      })
+      $("#settingsTimeOutPreiodSpan").text(timeOutPeriod/60 + " minutes")
+      $("#settingsTimeOutRangeSlider").change(function(){
+        var period = $("#settingsTimeOutRangeSlider").val()
+        console.log(period)
+        chrome.storage.local.set({secpassTimeOutPeriod: period*60 }, function() {
+          console.log("[DBEUG] Updated timeout period using settings")
+          $("#settingsTimeOutPreiodSpan").text(period + " minutes")
+          chrome.runtime.sendMessage("", {
+            from: "secpass_popup_script",
+            action: "secpass_change_timeout",
+            period: period*60
+          });
+        })
+      })
+    })
 
     $("#info").click(async function () {
       $("#selfInfoDialog").css("display", "block");

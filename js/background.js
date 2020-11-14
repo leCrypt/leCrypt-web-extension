@@ -1,5 +1,5 @@
 $(function () {
-  chrome.idle.setDetectionInterval(15);
+  chrome.idle.setDetectionInterval(timeOutPeriod);
   console.log("[Background] Start on: " + new Date());
   chrome.idle.onStateChanged.addListener(function (val) {
     if (val == "idle") {
@@ -63,6 +63,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, respond) {
         });
       });
     }
+  } else if(message.from == "secpass_popup_script" && message.action == "secpass_change_timeout") {
+    console.log("[DEBUG] User changed timeout period")
+    console.log(message.period/60)
+    chrome.idle.setDetectionInterval(message.period);
   }
 
   return true;

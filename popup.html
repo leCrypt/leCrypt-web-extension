@@ -149,9 +149,26 @@
 
         </section>
 
+        <!-- Settings Screen -->
+        <section id="settingsScreen" style="display: grid; place-items: center; padding-top: 2%;">
+            <div id="settingsScreenHeader" style="display: flex; justify-content: space-between; width: 100%; padding: 0% 4%;">
+                <span style="font-size: 3rem; font-weight: bold; color: black;">Settings</span>
+                <button id="settingsHomeButton" style="margin-right: 2%; margin-top: 2%; font-size: 1.35rem;"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div id="settingsScreenMain" style="display: flex; width: 100%; margin-left: 8%; padding-top: 2%;">
+                <div id="timeOutTimeSetting" style="text-align: start;">
+                    <span style="font-size: 1.45rem; color: black; font-weight: bold;">Timeout Period: </span> <span id="settingsTimeOutPreiodSpan" style="font-weight: bold; font-size: 1.15rem;"></span>
+                </div>
+                <div>
+                    <input id="settingsTimeOutRangeSlider" style="box-shadow: 0px 0px; margin-left: 0.5rem;" min="1" max="100" value="5" step="1" type="range">
+                </div>
+            </div>
+        </section>
+
     </body>
 
     <script src="js/jquery.js"></script>
+    <script src="js/constants.js"></script>
     <script src="js/all.js"></script>
     <script src="js/crypto-js.min.js"></script>
     <script src="js/loginItem.js"></script>
