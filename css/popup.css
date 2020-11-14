@@ -226,37 +226,37 @@ li {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
 }
 
 /* button */
-::-webkit-scrollbar-button {
+/* ::-webkit-scrollbar-button {
   background: #6c63ff;
   border-radius: 50px;
-}
+} */
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background: #6c63ff;
   border-radius: 50px;
-}
+} */
 
 /* Track */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   background: #d3d3d3;
-}
+} */
 
-/* The track NOT covered by the handle.
-::-webkit-scrollbar-track-piece {
+/* The track NOT covered by the handle. */
+/* ::-webkit-scrollbar-track-piece {
     background: #000;
-}
+} */
  
 /* Corner */
-::-webkit-scrollbar-corner {
+/* ::-webkit-scrollbar-corner {
   background: #999999;
-}
+} */
 
 /* Resizer */
-::-webkit-resizer {
+/* ::-webkit-resizer {
   background: #111111;
-}
+}  */
